@@ -1,0 +1,59 @@
+# How to contribute
+
+## Commits
+
+### Keep'em short
+
+General rule is to keep your commits short, unless you are doing module initialization. Also commits content should be only source code, don't commit binaries or something that can be generated.
+
+### Initializing component
+
+component initialization commits are only one allowed to be big. But please follow two rules:
+
+- initialization commit should contain proper .gitignore file.
+
+- initialization commit should provide README file
+
+### Organize and check
+
+New features should be pushed to feature named branches derived from `devel` branch, i.e. feature "Add graph view for desktop app" should be developed on branch `devel/desktop/graph_view`.
+
+When your changes are "ready to be marged" please issue pull request to devel branch. It is sign for reviewer to check your code and decide if it is OK.
+
+>> Keep on mind that you might also review someones code, so first rule comes handy for everybody ;)
+
+### Naming
+
+Please name your commits following manner:
+
+```
+<module>:<short description>
+
+<verbose description>
+```
+
+Where `module` is part of the system that commit is referring to.
+
+## Tools
+
+For now .gitignore is set up for awesome tools developed by JetBrains.
+
+As a student, you can obtain educational license for them here: https://www.jetbrains.com/education/programs/
+
+there is almost everything for used languages:
+
+|Language     | IDE      |
+|-------------|----------|
+| C#          | Rider    |
+| Java        | InteliJ  |
+| Java Script | WebStorm |
+
+Keep on mind that in final phase source building should be rather dependent on makefiles than IDE project configuration.
+
+## Coding conventions
+
+TBD
+
+## Testing
+
+TBD
