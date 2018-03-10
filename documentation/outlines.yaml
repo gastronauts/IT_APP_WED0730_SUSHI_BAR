@@ -1,0 +1,21 @@
+cpm:
+ - user requirements
+ - project plan
+ - project estimation
+ - risk analysis
+
+ita:
+ - Subject of the project
+   - Business justification
+ - Short State of Art
+ - Project scope
+   - Goal / Aims
+   - Project's risks
+   - Features to be implemented
+ - Techniques & Technologies used to implement your project
+ - Milestones & Project plan
+   - Gantt Chart
+   - Cost & effort calculations
+ - Thorough Implementation description along with deployment information
+ - Conclusions
+
