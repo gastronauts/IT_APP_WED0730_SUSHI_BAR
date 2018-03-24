@@ -48,8 +48,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-*.iml
+projects/server/*.iml
 
 # building
-target
-vendor
+projects/server/target
+projects/server/vendor
