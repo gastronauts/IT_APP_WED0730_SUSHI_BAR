@@ -1,8 +1,8 @@
 import { StackNavigator } from 'react-navigation';
-import TestScreen from "../screens/TestScreen";
+import MenuScreen from '../screens/MenuScreen';
 
 const MainNavigator = StackNavigator({
-    Test: { screen: TestScreen }
+    Menu: { screen: MenuScreen }
 });
 
 export default MainNavigator;

@@ -6,7 +6,7 @@ const initialNavState = MainNavigator.router.getStateForAction(
         index: 0,
         actions: [
             NavigationActions.navigate({
-                routeName: "Test"
+                routeName: "Menu"
             })
         ]
     })

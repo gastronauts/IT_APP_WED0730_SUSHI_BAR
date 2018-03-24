@@ -1,5 +1,6 @@
 {
   "en": {
-    "testText": "This is a test text"
+    "testText": "This is a test text",
+    "menuTitle": "Menu"
   }
 }
