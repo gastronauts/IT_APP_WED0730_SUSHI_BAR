@@ -1,0 +1,44 @@
+cpm:
+ - name: user requirements
+   src: user_requirements.md
+
+ - name: project plan
+   src: project_plan.md
+
+ - name: project estimation
+   src:  project_estimation.md
+
+ - name: risk analysis
+   src: risk_analysis.md
+
+ita:
+ - name: subject of the project
+   src: subject.md
+   sub:
+    - business justification
+
+ - name: state of art
+   src: state_of_art.md
+
+ - name: project scope
+   src: project_scope.md
+   sub:
+    - goal / aims
+    - project's risks
+    - features to be implemented
+
+ - name: techniques & technologies
+   src: techniques_and_technologies.md
+
+ - name: milestones & project plan
+   src: milestones_and_project_plan.md
+   sub:
+    - gantt chart
+    - cost & effort calculations
+
+ - name: implementation description and deployment information
+   src: implementation_and_deployment.md
+
+ - name: conclusions
+   src: conclusions.md
+
