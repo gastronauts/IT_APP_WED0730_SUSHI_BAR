@@ -1,6 +1,10 @@
 {
   "en": {
     "testText": "This is a test text",
-    "menuTitle": "Menu"
+    "menuTitle": "Menu",
+    "orderTitle": "Your order",
+    "cartTitle": "Cart",
+    "tinderRollTitle": "Tinder Roll"
+
   }
 }

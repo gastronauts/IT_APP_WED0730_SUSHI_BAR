@@ -3,30 +3,12 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {Icon} from "react-native-elements";
-import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
+import { NavigationActions } from "react-navigation";
 
-const cacheImage = images =>
-    images.map(image => {
-        if (typeof image === "string") return Image.prefetch(image);
-
-        return Expo.Asset.fromModule(image).downloadAsync();
-    });
-
-class MenuScreen extends Component {
-    componentWillMount() {
-        this._loadAssetsAsync();
-    }
-
-    async _loadAssetsAsync() {
-        const imagesAssets = cacheImage([icon]);
-        await Promise.all([...imagesAssets]);
-        this.setState({
-            appIsReady: true
-        });
-    };
+class TinderRollScreen extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -39,15 +21,7 @@ class MenuScreen extends Component {
         const {state, setParams, navigate} = navigation;
         const params = state.params || {};
         return {
-            title: translate(dictionary, 'menuTitle', params.lang || 'en').menuTitle,
-            tabBarLabel: translate(dictionary, 'menuTitle', params.lang || 'en').menuTitle,
-            tabBarIcon: ({ tintColor }) => (
-                <Icon
-                    name="ios-restaurant-outline"
-                    type="ionicon"
-                    size={28}
-                    color={constants.colors.white} />
-            ),
+            title: translate(dictionary, 'tinderRollTitle', params.lang || 'en').tinderRollTitle,
             headerStyle: {
                 backgroundColor: constants.colors.darkGrey
             },
@@ -55,23 +29,20 @@ class MenuScreen extends Component {
                 color: constants.colors.white
             },
             headerLeft: (
-                <Image
-                    source={icon}
-                    style={style.navHeaderLeft}
+                <Icon
+                    name="ios-arrow-back"
+                    type="ionicon"
+                    size={28}
+                    color="#fff"
+                    iconStyle={style.backIconStyle}
+                    onPress={() => {
+                        const backAction = NavigationActions.back();
+                        navigation.dispatch(backAction)
+                    }}
                 />
             ),
             headerRight: (
                 <View style={style.navHeaderRight}>
-                    <Icon
-                        name="fire"
-                        type="material-community"
-                        size={28}
-                        color="#fff"
-                        iconStyle={style.headerRightIconFire}
-                        onPress={() => {
-                            navigation.navigate("TinderRoll");
-                        }}
-                    />
                     <View style={style.cartView}>
                         <Icon
                             name="ios-cart-outline"
@@ -93,12 +64,15 @@ class MenuScreen extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <Text>Menu screen content</Text>
+            <Text>Tinder Roll screen content</Text>
         )
     }
 }
 
 const style = StyleSheet.create({
+    backIconStyle: {
+        paddingLeft: 15
+    },
     navHeaderLeft: {
         width: 30,
         height: 28,
@@ -138,4 +112,4 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({}, dispatch)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TinderRollScreen);

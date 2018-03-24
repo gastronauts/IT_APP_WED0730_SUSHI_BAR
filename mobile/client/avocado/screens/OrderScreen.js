@@ -8,25 +8,7 @@ import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
 
-const cacheImage = images =>
-    images.map(image => {
-        if (typeof image === "string") return Image.prefetch(image);
-
-        return Expo.Asset.fromModule(image).downloadAsync();
-    });
-
-class MenuScreen extends Component {
-    componentWillMount() {
-        this._loadAssetsAsync();
-    }
-
-    async _loadAssetsAsync() {
-        const imagesAssets = cacheImage([icon]);
-        await Promise.all([...imagesAssets]);
-        this.setState({
-            appIsReady: true
-        });
-    };
+class OrderScreen extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -39,12 +21,12 @@ class MenuScreen extends Component {
         const {state, setParams, navigate} = navigation;
         const params = state.params || {};
         return {
-            title: translate(dictionary, 'menuTitle', params.lang || 'en').menuTitle,
-            tabBarLabel: translate(dictionary, 'menuTitle', params.lang || 'en').menuTitle,
+            title: translate(dictionary, 'orderTitle', params.lang || 'en').orderTitle,
+            tabBarLabel: translate(dictionary, 'orderTitle', params.lang || 'en').orderTitle,
             tabBarIcon: ({ tintColor }) => (
                 <Icon
-                    name="ios-restaurant-outline"
-                    type="ionicon"
+                    name="tasklist"
+                    type="octicon"
                     size={28}
                     color={constants.colors.white} />
             ),
@@ -93,7 +75,7 @@ class MenuScreen extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <Text>Menu screen content</Text>
+            <Text>Order screen content</Text>
         )
     }
 }
@@ -138,4 +120,4 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({}, dispatch)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
