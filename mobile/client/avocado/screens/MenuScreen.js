@@ -7,6 +7,7 @@ import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
+import MenuItemComponent from '../containers/MenuItemComponent'
 
 const cacheImage = images =>
     images.map(image => {
@@ -34,6 +35,15 @@ class MenuScreen extends Component {
             sum: this.props.sum
         });
     }
+
+    componentWillReceiveProps(nextProps){
+        //prawie
+        if(this.props.sum !== nextProps.sum){
+            this.props.navigation.setParams({
+                sum: this.props.sum
+            });
+        }
+    };
 
     static navigationOptions = ({navigation}) => {
         const {state, setParams, navigate} = navigation;
@@ -91,9 +101,21 @@ class MenuScreen extends Component {
     };
 
     render() {
+        let ingredients = [
+            "salmon",
+            "kabayaki sauce",
+            "lettuce",
+            "lettuce",
+            "lettuce"
+        ];
         const {navigate} = this.props.navigation;
         return (
-            <Text>Menu screen content</Text>
+            <View>
+                <MenuItemComponent mealId={1} mealName="Futo Grill Kabayaki" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent mealId={2} mealName="Futo Grill Salmon" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent mealId={3} mealName="Futo Grill Tuna" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+
+            </View>
         )
     }
 }
