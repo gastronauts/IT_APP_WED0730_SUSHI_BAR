@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
 import {Icon} from "react-native-elements";
 import constants from '../constants/constants';
 import translate from "translatr";
@@ -10,6 +10,23 @@ import CartItemComponent from '../containers/CartItemComponent';
 import { NavigationActions } from "react-navigation";
 
 class CartScreen extends Component {
+    componentWillMount() {
+      BackHandler.addEventListener('hardwareBackPressed', () => {
+          const navigateAction = NavigationActions.navigate({
+              routeName: 'Menu',
+              params: {
+                  sum : this.props.sum,
+                  lang: this.props.lang
+              }
+          });
+          this.props.navigation.dispatch(navigateAction);
+          return true;
+      })
+    };
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress');
+    }
 
     componentDidMount() {
         this.props.navigation.setParams({
