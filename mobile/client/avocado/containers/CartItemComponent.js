@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Modal } from 'react-native';
 import {Text, Button, Icon} from 'react-native-elements';
 import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
@@ -15,7 +15,8 @@ class CartItemComponent extends Component {
         super(props);
         this.state = {
             itemsAmount: this.props.amount,
-            price: this.props.price * this.props.amount
+            price: this.props.price * this.props.amount,
+            modalVisible: false
         };
     }
 
@@ -39,7 +40,9 @@ class CartItemComponent extends Component {
                     <Text
                         style={{fontSize:12}}
                         onPress={() => {
-                            console.log("details pressed");
+                            this.setState({
+                                modalVisible: true
+                            })
                         }}
                     >
                         Details...
@@ -102,11 +105,28 @@ class CartItemComponent extends Component {
                             backgroundColor: constants.colors.red,
                         }}
                         onPress = { () => {
-                                this.props.removeItemFromCart(this.props.mealId);
+                            this.props.removeItemFromCart(this.props.mealId);
                         }}
                     />
 
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: false });
+                    }}
+                >
+                    <View style={style.modalStyle}>
+                        <View style={style.modalContentStyle}>
+                            <Text style={style.modalTitle}> TITLE </Text>
+                            <View>
+                                <Text>Content</Text>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }
@@ -211,7 +231,29 @@ const style = StyleSheet.create({
         fontSize:12,
         width:15,
         height:15
-    }
+    },
+    modalStyle: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.5)"
+    },
+    modalContentStyle: {
+        flex: 1,
+        marginTop: 25,
+        marginBottom: 25,
+        marginLeft: 25,
+        marginRight: 25,
+        backgroundColor: "#fff",
+
+        alignItems: "center"
+    },
+    modalTitle: {
+        fontSize: 20,
+        marginTop: 25,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        textAlign: "center"
+    },
 
 });
 
