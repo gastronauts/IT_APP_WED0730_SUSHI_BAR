@@ -7,6 +7,7 @@ import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
 import CartItemComponent from '../containers/CartItemComponent';
+import CartInfoComponent from '../containers/CartInfoComponent';
 import { NavigationActions } from "react-navigation";
 
 class CartScreen extends Component {
@@ -115,6 +116,7 @@ class CartScreen extends Component {
         const {navigate} = this.props.navigation;
         return (
             <ScrollView>
+                <CartInfoComponent/>
                 {items}
             </ScrollView>
         )

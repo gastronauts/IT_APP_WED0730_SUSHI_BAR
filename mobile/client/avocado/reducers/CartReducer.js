@@ -1,7 +1,8 @@
 export default function CartReducer(
     state = {
         sum: 0,
-        itemsInCart: []
+        itemsInCart: [],
+        estimatedTime: 0
     },
     action
 ) {
