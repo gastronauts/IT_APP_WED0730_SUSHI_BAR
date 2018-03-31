@@ -19,15 +19,6 @@ class CartItemComponent extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps){
-        if(this.props.amount !== nextProps.amount){
-            this.setState({
-                itemsAmount: nextProps.amount,
-                price: this.props.price * nextProps.amount
-            })
-
-        }
-    }
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
@@ -70,7 +61,7 @@ class CartItemComponent extends Component {
                                         itemsAmount: decAmount,
                                         price: newPrice
                                     });
-                                    this.props.updateAmountOfItemInCart(this.props.mealId, this.state.itemsAmount);
+                                    this.props.updateAmountOfItemInCart(this.props.mealId, decAmount);
                                 }
                                 else {
                                     this.props.removeItemFromCart(this.props.mealId);
@@ -95,7 +86,7 @@ class CartItemComponent extends Component {
                                     itemsAmount: incAmount,
                                     price: newPrice
                                 });
-                                this.props.updateAmountOfItemInCart(this.props.mealId, this.state.itemsAmount);
+                                this.props.updateAmountOfItemInCart(this.props.mealId, incAmount);
                             }}
                         >
                             +

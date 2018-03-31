@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
 import {Icon} from "react-native-elements";
 import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
@@ -37,10 +37,10 @@ class MenuScreen extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        //prawie
-        if(this.props.sum !== nextProps.sum){
+        //console.log('MENU',  nextProps.sum, this.props.navigation.state.params.sum,this.props.navigation);
+        if(typeof this.props.navigation !== 'undefined' && typeof this.props.navigation.state.params !== 'undefined' && this.props.navigation.state.params.sum !== nextProps.sum){
             this.props.navigation.setParams({
-                sum: this.props.sum
+                sum: nextProps.sum
             });
         }
     };
@@ -110,12 +110,11 @@ class MenuScreen extends Component {
         ];
         const {navigate} = this.props.navigation;
         return (
-            <View>
-                <MenuItemComponent mealId={1} mealName="Futo Grill Kabayaki" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent mealId={2} mealName="Futo Grill Salmon" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent mealId={3} mealName="Futo Grill Tuna" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-
-            </View>
+            <ScrollView>
+                <MenuItemComponent navi={this.props.navigation} mealId={1} mealName="Futo Grill Kabayaki" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent navi={this.props.navigation} mealId={2} mealName="Futo Grill Salmon" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent navi={this.props.navigation} mealId={3} mealName="Futo Grill Tuna" ingredients={ingredients} price={20} image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+            </ScrollView>
         )
     }
 }

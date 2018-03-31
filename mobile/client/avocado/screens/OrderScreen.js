@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
 import {Icon} from "react-native-elements";
 import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
-import CartItemComponent from '../containers/CartItemComponent'
 
 class OrderScreen extends Component {
 
@@ -75,21 +74,12 @@ class OrderScreen extends Component {
     };
 
     render() {
-        let items = this.props.itemsInCart.map( (item, index) => {
-            return <CartItemComponent mealId={item.mealId} mealName={item.mealName} ingredients={item.ingredients} price={item.price} image={item.image} amount={item.amount} key={index}/>
-        });
-
-        if(items.length === 0){
-            items = <Text style={style.emptyCartTextStyle}>
-                {translate(dictionary, 'emptyCartText', this.props.lang || 'en').emptyCartText}
-            </Text>
-        }
 
         const {navigate} = this.props.navigation;
         return (
-            <View>
-             {items}
-            </View>
+            <ScrollView>
+
+            </ScrollView>
         )
     }
 }
@@ -122,20 +112,12 @@ const style = StyleSheet.create({
     cartAmountStyle: {
         color: '#fff',
         fontSize: 10
-    },
-    emptyCartTextStyle: {
-        fontSize: 20,
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight:10,
-        textAlign: 'center'
     }
 });
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
-    sum: state.CartReducer.sum,
-    itemsInCart: state.CartReducer.itemsInCart
+    sum: state.CartReducer.sum
 });
 
 const mapDispatchToProps = (dispatch) => {

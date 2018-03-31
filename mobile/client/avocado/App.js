@@ -4,7 +4,7 @@ import store from './store';
 import { i18nActions, Loc } from 'redux-react-native-i18n';
 import translation from './translations/translations';
 import languages from './translations/languages'
-import MainNavigator from './routes/routes'
+import MainNavigator from './routes/routes';
 
 export default class App extends React.Component {
     render() {

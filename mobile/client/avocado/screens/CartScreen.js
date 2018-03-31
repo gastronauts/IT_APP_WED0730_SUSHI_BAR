@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {Icon} from "react-native-elements";
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
+import CartItemComponent from '../containers/CartItemComponent';
 import { NavigationActions } from "react-navigation";
 
 class CartScreen extends Component {
@@ -15,7 +16,16 @@ class CartScreen extends Component {
             lang: this.props.language,
             sum: this.props.sum
         });
-    }
+    };
+
+    componentWillReceiveProps(nextProps){
+        //console.log('CART', nextProps.sum, this.props.navigation.state.params.sum, this.props.navigation);
+        if(typeof this.props.navigation !== 'undefined' && typeof this.props.navigation.state.params !== 'undefined' && this.props.navigation.state.params.sum !== nextProps.sum){
+            this.props.navigation.setParams({
+                sum: nextProps.sum
+            });
+        }
+    };
 
     static navigationOptions = ({navigation}) => {
         const {state, setParams, navigate} = navigation;
@@ -36,8 +46,14 @@ class CartScreen extends Component {
                     color="#fff"
                     iconStyle={style.backIconStyle}
                     onPress={() => {
-                        const backAction = NavigationActions.back();
-                        navigation.dispatch(backAction)
+                        const navigateAction = NavigationActions.navigate({
+                            routeName: 'Menu',
+                            params: {
+                                sum : params.sum,
+                                lang: params.lang
+                            }
+                        });
+                        navigation.dispatch(navigateAction);
                     }}
                 />
             ),
@@ -69,9 +85,21 @@ class CartScreen extends Component {
     };
 
     render() {
+        let items = this.props.itemsInCart.map( (item, index) => {
+            return <CartItemComponent navi={this.props.navigation} mealId={item.mealId} mealName={item.mealName} ingredients={item.ingredients} price={item.price} image={item.image} amount={item.amount} key={index}/>
+        });
+
+        if(items.length === 0){
+            items = <Text style={style.emptyCartTextStyle}>
+                {translate(dictionary, 'emptyCartText', this.props.lang || 'en').emptyCartText}
+            </Text>
+        }
+
         const {navigate} = this.props.navigation;
         return (
-            <Text>Cart screen content</Text>
+            <ScrollView>
+                {items}
+            </ScrollView>
         )
     }
 }
@@ -107,12 +135,20 @@ const style = StyleSheet.create({
     cartAmountStyle: {
         color: '#fff',
         fontSize: 10
+    },
+    emptyCartTextStyle: {
+        fontSize: 20,
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight:10,
+        textAlign: 'center'
     }
 });
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
-    sum: state.CartReducer.sum
+    sum: state.CartReducer.sum,
+    itemsInCart: state.CartReducer.itemsInCart
 });
 
 const mapDispatchToProps = (dispatch) => {
