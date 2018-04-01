@@ -263,7 +263,8 @@ CartItemComponent.propTypes = {
     ingredients: PropTypes.array,
     price: PropTypes.number,
     image: PropTypes.string,
-    amount: PropTypes.number
+    amount: PropTypes.number,
+    estimatedTime: PropTypes.number
 };
 
 

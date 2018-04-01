@@ -1,5 +1,5 @@
 
-export const addItemToCart = (mealId, mealName, ingredients, price, amount, image) => {
+export const addItemToCart = (mealId, mealName, ingredients, price, amount, image, estimatedTime) => {
     return {
         type: 'ADD_ITEM_TO_CART',
         payload: {
@@ -8,7 +8,8 @@ export const addItemToCart = (mealId, mealName, ingredients, price, amount, imag
             ingredients: ingredients,
             price: price,
             amount: amount,
-            image: image
+            image: image,
+            estimatedTime: estimatedTime
         }
     }
 };

@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Image, Modal } from 'react-native';
 import {Text, Button, Icon} from 'react-native-elements';
-import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
-import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
 import dictionary from '../translations/translations';
@@ -46,8 +44,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        removeItemFromCart: removeItemFromCart,
-        updateAmountOfItemInCart: updateAmountOfItemInCart
     }, dispatch)
 };
 

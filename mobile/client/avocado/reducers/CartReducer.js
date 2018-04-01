@@ -10,6 +10,7 @@ export default function CartReducer(
 
         case "ADD_ITEM_TO_CART":
             let newSum = 0;
+            //let newEstimatedTime = 0;
             let updateItem = false;
             let newState = state.itemsInCart.map( (item) => {
                 if(item.mealId === action.payload.mealId){
@@ -19,6 +20,7 @@ export default function CartReducer(
                 }
                 else{
                     newSum += item.amount * item.price;
+                    //newEstimatedTime = action.payload.estimatedTime > newEstimatedTime ? action.payload.estimatedTime : newEstimatedTime;
                     return item
                 }
             });
@@ -26,24 +28,28 @@ export default function CartReducer(
 
             state = {...state,
                 sum: updateItem ? newSum : newSum + action.payload.amount * action.payload.price,
-                itemsInCart: updateItem ? newState : [...state.itemsInCart, action.payload]
+                itemsInCart: updateItem ? newState : [...state.itemsInCart, action.payload],
+                estimatedTime: action.payload.estimatedTime > state.estimatedTime ? action.payload.estimatedTime : state.estimatedTime
             };
             break;
 
         case "REMOVE_ITEM_FROM_CART":
             newSum = 0;
             newState = [];
+            let newEstimatedTime = 0;
 
             state.itemsInCart.forEach( (item) => {
                 if(item.mealId !== action.payload.mealId){
                     newState.push(item);
-                    newSum += item.amount * item.price
+                    newSum += item.amount * item.price;
+                    newEstimatedTime = item.estimatedTime > newEstimatedTime ? item.estimatedTime : newEstimatedTime;
                 }
             });
 
             state = {...state,
                 sum: newSum,
-                itemsInCart: newState
+                itemsInCart: newState,
+                estimatedTime: newEstimatedTime
             };
             break;
 

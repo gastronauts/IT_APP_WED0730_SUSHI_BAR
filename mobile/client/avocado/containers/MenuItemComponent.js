@@ -101,7 +101,14 @@ class MenuItemComponent extends Component {
                         }}
                         onPress = { () => {
                             if(this.state.itemsAmount > 0){
-                                this.props.addItemToCart(this.props.mealId, this.props.mealName, this.props.ingredients, this.props.price, this.state.itemsAmount, this.props.image);
+                                this.props.addItemToCart(
+                                    this.props.mealId,
+                                    this.props.mealName,
+                                    this.props.ingredients,
+                                    this.props.price,
+                                    this.state.itemsAmount,
+                                    this.props.image,
+                                    this.props.estimatedTime);
                                 this.setState({
                                     itemsAmount: 0,
                                     price: this.props.price
@@ -277,7 +284,8 @@ MenuItemComponent.propTypes = {
     mealName: PropTypes.string,
     ingredients: PropTypes.array,
     price: PropTypes.number,
-    image: PropTypes.string
+    image: PropTypes.string,
+    estimatedTime: PropTypes.number
 };
 
 
