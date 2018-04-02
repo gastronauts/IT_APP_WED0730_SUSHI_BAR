@@ -31,7 +31,7 @@ public class Order implements Serializable {
     private Integer id;
 
     private Status status;
-    private Integer summary;
+    private Integer summaryPrice;
     private Date dateStart;
     private Date dateEnd;
 
