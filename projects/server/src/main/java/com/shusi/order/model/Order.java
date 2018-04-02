@@ -30,7 +30,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String status;
+    private Status status;
     private Integer summary;
     private Date dateStart;
     private Date dateEnd;
