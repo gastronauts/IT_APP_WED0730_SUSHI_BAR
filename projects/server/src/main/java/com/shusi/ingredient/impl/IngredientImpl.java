@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Component
@@ -14,6 +15,11 @@ public class IngredientImpl implements IngredientService{
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    @Override
+    public Collection<Ingredient> getAllIngredients() {
+        return (Collection<Ingredient>) ingredientRepository.findAll();
+    }
 
     @Override
     public Optional<Ingredient> getIngredient(Integer ingredientId) {
