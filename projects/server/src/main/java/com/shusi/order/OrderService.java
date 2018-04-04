@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public interface OrderService {
 
-    Optional<Order> getOrderById(Integer orderId);
+    Optional<Order> getOrderById(String orderId);
 
     Order addOrder(Order order) throws IllegalArgumentException;
 

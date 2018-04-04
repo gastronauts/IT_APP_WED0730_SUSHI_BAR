@@ -16,7 +16,7 @@ public class OrderImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public Optional<Order> getOrderById(Integer orderId) {
+    public Optional<Order> getOrderById(String orderId) {
         return Optional.ofNullable(orderRepository.findOne(orderId));
     }
 

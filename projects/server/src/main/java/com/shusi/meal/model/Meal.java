@@ -30,8 +30,14 @@ public class Meal implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String category;
+
+    private String details;
+
     private String image;
 
+    @Column(nullable = false)
     private Time properTime;
 
     @ManyToMany
@@ -40,4 +46,7 @@ public class Meal implements Serializable {
 
     @Column(nullable = false)
     private Integer price;
+
+    @Column(nullable = false)
+    private boolean possibleToDo;
 }

@@ -18,7 +18,7 @@ public class OrderController {
 
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
-    public ResponseEntity<Order> getOrder(@PathVariable Integer id){
+    public ResponseEntity<Order> getOrder(@PathVariable String id){
         return orderService.getOrderById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
                 orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
