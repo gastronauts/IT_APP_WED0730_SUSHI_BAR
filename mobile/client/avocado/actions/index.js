@@ -32,3 +32,16 @@ export const updateAmountOfItemInCart = (mealId, amount) => {
         }
     }
 };
+
+export const addOrder = (orderId, meals, status, sum, time) => {
+    return {
+        type: 'ADD_ORDER',
+        payload: new Promise( resolve => {
+            resolve({
+                orderId: orderId,
+                meals: meals,
+                status: status,
+                sum: sum,
+                estimatedTime: time
+            });
+        })}};
