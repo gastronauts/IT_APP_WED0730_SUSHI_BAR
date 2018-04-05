@@ -44,4 +44,15 @@ export const addOrder = (orderId, meals, status, sum, time) => {
                 sum: sum,
                 estimatedTime: time
             });
-        })}};
+        })
+    }
+};
+
+export const emptyCart = () => {
+    return {
+        type: 'EMPTY_CART',
+        payload: {
+
+        }
+    }
+};

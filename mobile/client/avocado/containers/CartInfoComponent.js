@@ -6,7 +6,7 @@ import {Text, Button, Icon} from 'react-native-elements';
 import constants from '../constants/constants'
 import translate from "translatr";
 import dictionary from '../translations/translations';
-import {addOrder} from '../actions/index';
+import {addOrder, emptyCart} from '../actions/index';
 import uuidv3 from 'uuid';
 
 
@@ -25,7 +25,9 @@ class CartInfoComponent extends Component {
                         title = 'ORDER'
                         color = {constants.colors.white}
                         onPress = { () => {
-                            this.props.addOrder(uuidv3(), this.props.itemsInCart,'waiting', this.props.sum, this.props.estimatedTime);
+                            this.props.addOrder(uuidv3(), this.props.itemsInCart,'waiting', this.props.sum, this.props.estimatedTime).then( () => {
+                                this.props.emptyCart();
+                            })
                         }}
                         buttonStyle={{
                             backgroundColor: constants.colors.green,
@@ -47,7 +49,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        addOrder: addOrder
+        addOrder: addOrder,
+        emptyCart:emptyCart
     }, dispatch)
 };
 

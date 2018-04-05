@@ -71,6 +71,15 @@ export default function CartReducer(
                 itemsInCart: newState
             };
             break;
+
+        case 'EMPTY_CART':
+            state = {...state,
+                sum: 0,
+                itemsInCart: [],
+                estimatedTime: 0
+            };
+            break;
+
         default:
             return state;
     }
