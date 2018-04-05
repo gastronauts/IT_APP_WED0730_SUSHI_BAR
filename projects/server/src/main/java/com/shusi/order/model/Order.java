@@ -30,8 +30,11 @@ public class Order implements Serializable {
     @Column(unique = true)
     private String id;
 
+    @Column(nullable = false)
     private Status status;
+
     private Integer summaryPrice;
+
     private Date dateStart;
     private Date dateEnd;
 
