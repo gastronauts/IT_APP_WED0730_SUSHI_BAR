@@ -9,6 +9,7 @@
     "chooseMealAmount": "Choose meal's amount firstly",
     "mealAdded": "Meal added to cart!",
     "sum": "Sum",
-    "estimatedTime": "Estimated time"
+    "estimatedTime": "Estimated time",
+    "status": "Status"
   }
 }

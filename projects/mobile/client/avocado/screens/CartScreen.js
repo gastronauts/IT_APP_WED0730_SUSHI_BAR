@@ -116,7 +116,9 @@ class CartScreen extends Component {
         const {navigate} = this.props.navigation;
         return (
             <ScrollView>
-                <CartInfoComponent/>
+                <CartInfoComponent
+                    navi={this.props.navigation}
+                />
                 {items}
             </ScrollView>
         )

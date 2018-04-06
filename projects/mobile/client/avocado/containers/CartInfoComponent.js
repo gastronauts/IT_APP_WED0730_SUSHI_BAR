@@ -8,6 +8,7 @@ import translate from "translatr";
 import dictionary from '../translations/translations';
 import {addOrder, emptyCart} from '../actions/index';
 import uuidv3 from 'uuid';
+import { NavigationActions } from "react-navigation";
 
 
 
@@ -27,6 +28,9 @@ class CartInfoComponent extends Component {
                         onPress = { () => {
                             this.props.addOrder(uuidv3(), this.props.itemsInCart,'waiting', this.props.sum, this.props.estimatedTime).then( () => {
                                 this.props.emptyCart();
+                                this.props.navi.dispatch(
+                                    NavigationActions.navigate({ routeName: "Menu" })
+                                );
                             })
                         }}
                         buttonStyle={{

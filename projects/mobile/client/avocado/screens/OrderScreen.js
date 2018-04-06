@@ -7,6 +7,7 @@ import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
+import OrderItemComponent from '../containers/OrderItemComponent';
 
 class OrderScreen extends Component {
 
@@ -15,7 +16,15 @@ class OrderScreen extends Component {
             lang: this.props.language,
             sum: this.props.sum
         });
-    }
+    };
+
+    componentWillReceiveProps(nextProps){
+        if(typeof this.props.navigation !== 'undefined' && typeof this.props.navigation.state.params !== 'undefined' && this.props.navigation.state.params.sum !== nextProps.sum){
+            this.props.navigation.setParams({
+                sum: nextProps.sum
+            });
+        }
+    };
 
 
     static navigationOptions = ({navigation}) => {
@@ -74,11 +83,21 @@ class OrderScreen extends Component {
     };
 
     render() {
+        let items = this.props.orders.map( (order, index) => {
+            return <OrderItemComponent
+                orderId={order.orderId}
+                estimatedTime={order.estimatedTime}
+                sum={order.sum}
+                status={order.status}
+                meals={order.meals}
+                key={index}
+            />
+        });
 
         const {navigate} = this.props.navigation;
         return (
             <ScrollView>
-
+                {items}
             </ScrollView>
         )
     }
@@ -117,6 +136,7 @@ const style = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
+    orders: state.OrderReducer.orders,
     sum: state.CartReducer.sum
 });
 

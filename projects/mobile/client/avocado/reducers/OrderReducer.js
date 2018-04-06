@@ -1,10 +1,6 @@
 export default function OrderReducer(
     state = {
-        sum: 0,
-        status: '',
-        estimatedTime: 0,
-        meals: [],
-        orderId: ''
+        orders: []
     },
     action
 ) {
@@ -14,13 +10,19 @@ export default function OrderReducer(
             let newMeals = action.payload.meals.map( (meal) => {
                 return meal;
             });
-            state = {...state,
+
+            let newOrder =  {
                 orderId: action.payload.orderId,
                 sum: action.payload.sum,
                 estimatedTime: action.payload.estimatedTime,
                 status: action.payload.status,
                 meals: newMeals
             };
+
+            state = {...state,
+                orders: [...state.orders, newOrder]
+            };
+
             break;
 
         default:
