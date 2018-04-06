@@ -19,7 +19,6 @@ public class OrderController {
     @Autowired
     public OrderService orderService;
 
-
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public ResponseEntity<Order> getOrder(@PathVariable String id){
         return orderService.getOrderById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
@@ -27,8 +26,13 @@ public class OrderController {
     }
 
     @RequestMapping(value = "table/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Order>> getOrderBy(@PathVariable Integer id){
+    public ResponseEntity<Collection<Order>> getOrderByTable(@PathVariable Integer id){
         return ResponseEntity.ok(orderService.getOrderByTale(id));
+    }
+
+    @RequestMapping(value = "status/{status}",method = RequestMethod.GET)
+    public ResponseEntity<Collection<Order>> getOrderByStatus(@PathVariable Integer status){
+        return ResponseEntity.ok(orderService.getOrderByStatus(status));
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -37,7 +41,7 @@ public class OrderController {
             return new ResponseEntity<>(orderService.addOrder(order),HttpStatus.OK);
         }
         catch (IllegalArgumentException e){
-            return new ResponseEntity(e, HttpStatus.CONFLICT);
+            return new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
 

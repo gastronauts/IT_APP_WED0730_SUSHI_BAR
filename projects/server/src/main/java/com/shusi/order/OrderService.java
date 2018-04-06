@@ -14,6 +14,8 @@ public interface OrderService {
 
     Collection<Order> getOrderByTale(Integer tableId);
 
+    Collection<Order> getOrderByStatus(Integer status);
+
     Order addOrder(Order order) throws IllegalArgumentException;
 
     Order modifyOrder(Order order) throws IllegalArgumentException, InstantiationException;

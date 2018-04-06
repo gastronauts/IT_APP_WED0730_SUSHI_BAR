@@ -1,5 +1,8 @@
 package com.shusi.order.impl;
 
+import com.shusi.ingredient.model.Ingredient;
+import com.shusi.meal.model.Meal;
+import com.shusi.meal.repository.MealRepository;
 import com.shusi.order.OrderService;
 import com.shusi.order.model.Order;
 import com.shusi.order.model.Status;
@@ -10,12 +13,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private MealRepository mealRepository;
 
     @Override
     public Optional<Order> getOrderById(String orderId) {
@@ -28,15 +35,26 @@ public class OrderImpl implements OrderService {
     }
 
     @Override
+    public Collection<Order> getOrderByStatus(Integer status) {
+        return orderRepository.getOrdersByStatus(Status.values()[status]);
+    }
+
+    @Override
     public Order addOrder(Order order) throws IllegalArgumentException {
         if(!orderRepository.exists(order.getId())) {
-            try {
-                if(order.getStatus() == null)
-                    order.setStatus(Status.ORDERED);
-                return orderRepository.save(order);
-            } catch (DataAccessException e) {
-                throw new IllegalArgumentException(e);
+            Collection<Meal> orderedMeals = order.getMeals();
+            orderedMeals.stream().forEach(currentMeal -> currentMeal = mealRepository.findOne(currentMeal.getId()));
+            if (orderedMeals.stream().allMatch(Meal::isPossibleToDo)) {
+                try {
+                    if (order.getStatus() == null)
+                        order.setStatus(Status.ORDERED);
+                    return orderRepository.save(order);
+                } catch (DataAccessException e) {
+                    throw new IllegalArgumentException(e);
+                }
             }
+            else
+                throw new IllegalArgumentException("Some meal/-s aren't available");
         } else
             throw new IllegalArgumentException("Order does already exist");
     }
