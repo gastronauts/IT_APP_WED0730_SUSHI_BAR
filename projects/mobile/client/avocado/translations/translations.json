@@ -7,6 +7,10 @@
     "tinderRollTitle": "Tinder Roll",
     "emptyCartText": "You haven't added any meal to your cart yet. Please, check the menu.",
     "chooseMealAmount": "Choose meal's amount firstly",
-    "mealAdded": "Meal added to cart!"
+    "mealAdded": "Meal added to cart!",
+    "sum": "Sum",
+    "estimatedTime": "Estimated time",
+    "status": "Status",
+    "details": "Details"
   }
 }

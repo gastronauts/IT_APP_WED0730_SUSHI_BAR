@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image, ToastAndroid, Modal } from 'react-native';
+import { View, StyleSheet, Image, Modal } from 'react-native';
 import {Text, Button, Icon} from 'react-native-elements';
-import {addItemToCart} from '../actions/index';
+import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
-import dictionary from '../translations/translations';
+import DetailsComponent from './DetailsComponent'
 
 
-
-class MenuItemComponent extends Component {
+class OrderMealItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: 0,
-            price: this.props.price,
+            itemsAmount: this.props.amount,
+            price: this.props.price * this.props.amount,
             modalVisible: false
         };
     }
 
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
-
 
         return (
             <View style = {style.cardStyle}>
@@ -50,23 +53,9 @@ class MenuItemComponent extends Component {
                         Details...
                     </Text>
                 </View>
-                <View style={style.priceColumnStyle}>
-                    <Text>{this.state.price}zł</Text>
-                </View>
-
                 <View style={style.amountColumnStyle}>
                     <View style={style.counterRowStyle}>
-                        <Text
-                            style={style.amountMinusStyle}
-                            onPress = { () => {
-                                let decAmount = this.state.itemsAmount > 0 ? this.state.itemsAmount -1 : 0;
-                                let newPrice = decAmount > 1 ? decAmount * this.props.price : this.props.price;
-                                this.setState({
-                                    itemsAmount: decAmount,
-                                    price: newPrice
-                                })
-                            }}
-                        >
+                        <Text style={style.amountMinusStyle} >
                             -
                         </Text>
                         <View style={style.amountCounterStyle}>
@@ -76,53 +65,13 @@ class MenuItemComponent extends Component {
                             </Text>
 
                         </View>
-                        <Text
-                            style={style.amountPlusStyle}
-                            onPress = { () => {
-                                let incAmount = this.state.itemsAmount + 1;
-                                let newPrice = incAmount > 1 ? incAmount * this.props.price : this.props.price;
-                                this.setState({
-                                    itemsAmount: incAmount,
-                                    price: newPrice
-                                })
-                            }}
-                        >
+                        <Text style={style.amountPlusStyle}>
                             +
                         </Text>
                     </View>
-                    <Button
-                        title='+'
-                        color={constants.colors.darkGrey}
-                        buttonStyle={{
-                            borderRadius: 100,
-                            width: 30,
-                            height:30,
-                            backgroundColor: constants.colors.yellow,
-                        }}
-                        onPress = { () => {
-                            if(this.state.itemsAmount > 0){
-                                this.props.addItemToCart(this.props.mealId, this.props.mealName, this.props.ingredients, this.props.price, this.state.itemsAmount, this.props.image);
-                                this.setState({
-                                    itemsAmount: 0,
-                                    price: this.props.price
-                                });
-                                ToastAndroid.showWithGravity(
-                                    translate(dictionary, 'mealAdded', this.props.lang || 'en').mealAdded,
-                                    ToastAndroid.SHORT,
-                                    ToastAndroid.CENTER
-                                );
-                            }
-                            else{
-                                ToastAndroid.showWithGravity(
-                                    translate(dictionary, 'chooseMealAmount', this.props.lang || 'en').chooseMealAmount,
-                                    ToastAndroid.SHORT,
-                                    ToastAndroid.CENTER
-                                );
-                            }
-
-                        }}
-                    />
-
+                    <View style={style.priceColumnStyle}>
+                        <Text>{this.state.price}zł</Text>
+                    </View>
                 </View>
                 <Modal
                     animationType="slide"
@@ -134,12 +83,17 @@ class MenuItemComponent extends Component {
                 >
                     <View style={style.modalStyle}>
                         <View style={style.modalContentStyle}>
-                            <Text style={style.modalTitle}> TITLE </Text>
-                            <View>
-
-                                <Text>Content</Text>
-                            </View>
-
+                            <DetailsComponent
+                                mealId={this.props.mealId}
+                                image={this.props.image}
+                                mealName={this.props.mealName}
+                                ingredients={this.props.ingredients}
+                                price={this.props.price}
+                                closeModal={this.closeModal}
+                                estimatedTime={this.props.estimatedTime}
+                                itemsAmount={this.state.itemsAmount}
+                                whereOpened="ORDER"
+                            />
                         </View>
                     </View>
                 </Modal>
@@ -154,7 +108,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        addItemToCart: addItemToCart
+        removeItemFromCart: removeItemFromCart,
+        updateAmountOfItemInCart: updateAmountOfItemInCart
     }, dispatch)
 };
 
@@ -196,14 +151,16 @@ const style = StyleSheet.create({
         paddingBottom: 5
     },
     priceColumnStyle:{
-        flex: 0.7,
-        justifyContent: "flex-end"
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 25
     },
     amountColumnStyle:{
         flex: 0.7,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: -10
+        marginRight: -10,
+        paddingLeft: 10
     },
     title: {
         fontSize: 16
@@ -230,22 +187,24 @@ const style = StyleSheet.create({
         paddingRight: 5,
         marginLeft: 5,
         marginRight: 5,
-        backgroundColor: constants.colors.green,
+        backgroundColor: constants.colors.lightGrey,
         borderRadius:100,
         fontSize:10,
         width:15,
-        height:15
+        height:15,
+        color: constants.colors.white
     },
     amountMinusStyle: {
         paddingLeft: 5,
         paddingRight: 5,
         marginLeft: 5,
         marginRight: 5,
-        backgroundColor: constants.colors.green,
+        backgroundColor: constants.colors.lightGrey,
         borderRadius:100,
         fontSize:12,
         width:15,
-        height:15
+        height:15,
+        color: constants.colors.white
     },
     modalStyle: {
         flex: 1,
@@ -268,17 +227,19 @@ const style = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         textAlign: "center"
-    },
+    }
 
 });
 
-MenuItemComponent.propTypes = {
+OrderMealItemComponent.propTypes = {
     mealId: PropTypes.number,
     mealName: PropTypes.string,
     ingredients: PropTypes.array,
     price: PropTypes.number,
-    image: PropTypes.string
+    image: PropTypes.string,
+    amount: PropTypes.number,
+    estimatedTime: PropTypes.number
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuItemComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderMealItemComponent);

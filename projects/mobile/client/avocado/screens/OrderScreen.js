@@ -1,32 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, StyleSheet, ScrollView, BackHandler} from 'react-native';
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
 import {Icon} from "react-native-elements";
+import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
-import CartItemComponent from '../containers/CartItemComponent';
-import { NavigationActions } from "react-navigation";
+import OrderItemComponent from '../containers/OrderItemComponent';
 
-class CartScreen extends Component {
-    componentWillMount() {
-      BackHandler.addEventListener('hardwareBackPressed', () => {
-          const navigateAction = NavigationActions.navigate({
-              routeName: 'Menu',
-              params: {
-                  sum : this.props.sum,
-                  lang: this.props.lang
-              }
-          });
-          this.props.navigation.dispatch(navigateAction);
-          return true;
-      })
-    };
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress');
-    }
+class OrderScreen extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -36,7 +19,6 @@ class CartScreen extends Component {
     };
 
     componentWillReceiveProps(nextProps){
-        //console.log('CART', nextProps.sum, this.props.navigation.state.params.sum, this.props.navigation);
         if(typeof this.props.navigation !== 'undefined' && typeof this.props.navigation.state.params !== 'undefined' && this.props.navigation.state.params.sum !== nextProps.sum){
             this.props.navigation.setParams({
                 sum: nextProps.sum
@@ -44,11 +26,20 @@ class CartScreen extends Component {
         }
     };
 
+
     static navigationOptions = ({navigation}) => {
         const {state, setParams, navigate} = navigation;
         const params = state.params || {};
         return {
-            title: translate(dictionary, 'cartTitle', params.lang || 'en').cartTitle,
+            title: translate(dictionary, 'orderTitle', params.lang || 'en').orderTitle,
+            tabBarLabel: translate(dictionary, 'orderTitle', params.lang || 'en').orderTitle,
+            tabBarIcon: ({ tintColor }) => (
+                <Icon
+                    name="tasklist"
+                    type="octicon"
+                    size={28}
+                    color={constants.colors.white} />
+            ),
             headerStyle: {
                 backgroundColor: constants.colors.darkGrey
             },
@@ -56,22 +47,9 @@ class CartScreen extends Component {
                 color: constants.colors.white
             },
             headerLeft: (
-                <Icon
-                    name="ios-arrow-back"
-                    type="ionicon"
-                    size={28}
-                    color="#fff"
-                    iconStyle={style.backIconStyle}
-                    onPress={() => {
-                        const navigateAction = NavigationActions.navigate({
-                            routeName: 'Menu',
-                            params: {
-                                sum : params.sum,
-                                lang: params.lang
-                            }
-                        });
-                        navigation.dispatch(navigateAction);
-                    }}
+                <Image
+                    source={icon}
+                    style={style.navHeaderLeft}
                 />
             ),
             headerRight: (
@@ -93,6 +71,9 @@ class CartScreen extends Component {
                             size={24}
                             color="#fff"
                             iconStyle={style.headerRightIconCart}
+                            onPress={() => {
+                                navigation.navigate("Cart");
+                            }}
                         />
                         <Text style={style.cartAmountStyle}>{params.sum} zl</Text>
                     </View>
@@ -102,15 +83,16 @@ class CartScreen extends Component {
     };
 
     render() {
-        let items = this.props.itemsInCart.map( (item, index) => {
-            return <CartItemComponent navi={this.props.navigation} mealId={item.mealId} mealName={item.mealName} ingredients={item.ingredients} price={item.price} image={item.image} amount={item.amount} key={index}/>
+        let items = this.props.orders.map( (order, index) => {
+            return <OrderItemComponent
+                orderId={order.orderId}
+                estimatedTime={order.estimatedTime}
+                sum={order.sum}
+                status={order.status}
+                meals={order.meals}
+                key={index}
+            />
         });
-
-        if(items.length === 0){
-            items = <Text style={style.emptyCartTextStyle}>
-                {translate(dictionary, 'emptyCartText', this.props.lang || 'en').emptyCartText}
-            </Text>
-        }
 
         const {navigate} = this.props.navigation;
         return (
@@ -122,9 +104,6 @@ class CartScreen extends Component {
 }
 
 const style = StyleSheet.create({
-    backIconStyle: {
-        paddingLeft: 15
-    },
     navHeaderLeft: {
         width: 30,
         height: 28,
@@ -152,24 +131,17 @@ const style = StyleSheet.create({
     cartAmountStyle: {
         color: '#fff',
         fontSize: 10
-    },
-    emptyCartTextStyle: {
-        fontSize: 20,
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight:10,
-        textAlign: 'center'
     }
 });
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
-    sum: state.CartReducer.sum,
-    itemsInCart: state.CartReducer.itemsInCart
+    orders: state.OrderReducer.orders,
+    sum: state.CartReducer.sum
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({}, dispatch)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);

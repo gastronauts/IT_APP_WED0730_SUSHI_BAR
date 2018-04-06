@@ -1,27 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ToastAndroid, Modal } from 'react-native';
 import {Text, Button, Icon} from 'react-native-elements';
-import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
+import {addItemToCart} from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
+import dictionary from '../translations/translations';
+import DetailsComponent from './DetailsComponent'
 
 
 
-class CartItemComponent extends Component {
+class MenuItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: this.props.amount,
-            price: this.props.price * this.props.amount
+            itemsAmount: 1,
+            price: this.props.price,
+            modalVisible: false
         };
-    }
+    };
+
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
 
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
+
 
         return (
             <View style = {style.cardStyle}>
@@ -39,7 +49,9 @@ class CartItemComponent extends Component {
                     <Text
                         style={{fontSize:12}}
                         onPress={() => {
-                            console.log("details pressed");
+                            this.setState({
+                                modalVisible: true
+                            })
                         }}
                     >
                         Details...
@@ -54,18 +66,12 @@ class CartItemComponent extends Component {
                         <Text
                             style={style.amountMinusStyle}
                             onPress = { () => {
-                                let decAmount = this.state.itemsAmount > 1 ? this.state.itemsAmount -1 : 0;
-                                let newPrice = decAmount * this.props.price;
-                                if(decAmount !== 0){
-                                    this.setState({
-                                        itemsAmount: decAmount,
-                                        price: newPrice
-                                    });
-                                    this.props.updateAmountOfItemInCart(this.props.mealId, decAmount);
-                                }
-                                else {
-                                    this.props.removeItemFromCart(this.props.mealId);
-                                }
+                                let decAmount = this.state.itemsAmount > 0 ? this.state.itemsAmount -1 : 0;
+                                let newPrice = decAmount > 1 ? decAmount * this.props.price : this.props.price;
+                                this.setState({
+                                    itemsAmount: decAmount,
+                                    price: newPrice
+                                })
                             }}
                         >
                             -
@@ -85,28 +91,77 @@ class CartItemComponent extends Component {
                                 this.setState({
                                     itemsAmount: incAmount,
                                     price: newPrice
-                                });
-                                this.props.updateAmountOfItemInCart(this.props.mealId, incAmount);
+                                })
                             }}
                         >
                             +
                         </Text>
                     </View>
                     <Button
-                        title='X'
+                        title='+'
                         color={constants.colors.darkGrey}
                         buttonStyle={{
                             borderRadius: 100,
                             width: 30,
                             height:30,
-                            backgroundColor: constants.colors.red,
+                            backgroundColor: constants.colors.yellow,
                         }}
                         onPress = { () => {
-                                this.props.removeItemFromCart(this.props.mealId);
+                            if(this.state.itemsAmount > 0){
+                                this.props.addItemToCart(
+                                    this.props.mealId,
+                                    this.props.mealName,
+                                    this.props.ingredients,
+                                    this.props.price,
+                                    this.state.itemsAmount,
+                                    this.props.image,
+                                    this.props.estimatedTime);
+                                this.setState({
+                                    itemsAmount: 0,
+                                    price: this.props.price
+                                });
+                                ToastAndroid.showWithGravity(
+                                    translate(dictionary, 'mealAdded', this.props.lang || 'en').mealAdded,
+                                    ToastAndroid.SHORT,
+                                    ToastAndroid.CENTER
+                                );
+                            }
+                            else{
+                                ToastAndroid.showWithGravity(
+                                    translate(dictionary, 'chooseMealAmount', this.props.lang || 'en').chooseMealAmount,
+                                    ToastAndroid.SHORT,
+                                    ToastAndroid.CENTER
+                                );
+                            }
+
                         }}
                     />
 
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setState({ modalVisible: false });
+                    }}
+                >
+                    <View style={style.modalStyle}>
+                        <View style={style.modalContentStyle}>
+                            <DetailsComponent
+                                mealId={this.props.mealId}
+                                image={this.props.image}
+                                mealName={this.props.mealName}
+                                ingredients={this.props.ingredients}
+                                price={this.props.price}
+                                closeModal={this.closeModal}
+                                estimatedTime={this.props.estimatedTime}
+                                itemsAmount={this.state.itemsAmount}
+                                whereOpened="MENU"
+                            />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }
@@ -118,8 +173,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        removeItemFromCart: removeItemFromCart,
-        updateAmountOfItemInCart: updateAmountOfItemInCart
+        addItemToCart: addItemToCart
     }, dispatch)
 };
 
@@ -211,18 +265,40 @@ const style = StyleSheet.create({
         fontSize:12,
         width:15,
         height:15
-    }
+    },
+    modalStyle: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.5)"
+    },
+    modalContentStyle: {
+        flex: 1,
+        marginTop: 25,
+        marginBottom: 25,
+        marginLeft: 25,
+        marginRight: 25,
+        backgroundColor: "#fff",
+
+        alignItems: "center"
+    },
+    modalTitle: {
+        fontSize: 20,
+        marginTop: 25,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        textAlign: "center"
+    },
 
 });
 
-CartItemComponent.propTypes = {
+MenuItemComponent.propTypes = {
     mealId: PropTypes.number,
     mealName: PropTypes.string,
     ingredients: PropTypes.array,
     price: PropTypes.number,
     image: PropTypes.string,
-    amount: PropTypes.number
+    estimatedTime: PropTypes.number
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartItemComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuItemComponent);
