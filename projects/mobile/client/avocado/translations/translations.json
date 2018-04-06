@@ -10,6 +10,7 @@
     "mealAdded": "Meal added to cart!",
     "sum": "Sum",
     "estimatedTime": "Estimated time",
-    "status": "Status"
+    "status": "Status",
+    "details": "Details"
   }
 }

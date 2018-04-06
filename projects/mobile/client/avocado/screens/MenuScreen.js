@@ -133,6 +133,22 @@ class MenuScreen extends Component {
                     price={20}
                     estimatedTime={16}
                     image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent
+                    navi={this.props.navigation}
+                    mealId={4}
+                    mealName="Roll Salmon"
+                    ingredients={ingredients}
+                    price={20}
+                    estimatedTime={16}
+                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                <MenuItemComponent
+                    navi={this.props.navigation}
+                    mealId={5}
+                    mealName="California"
+                    ingredients={ingredients}
+                    price={20}
+                    estimatedTime={16}
+                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
             </ScrollView>
         )
     }

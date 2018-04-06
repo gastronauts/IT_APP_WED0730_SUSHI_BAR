@@ -7,7 +7,7 @@ import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
-
+import DetailsComponent from './DetailsComponent'
 
 
 class CartItemComponent extends Component {
@@ -18,8 +18,20 @@ class CartItemComponent extends Component {
             price: this.props.price * this.props.amount,
             modalVisible: false
         };
-    }
+    };
 
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
+
+    setCurrentStatePriceAndAmount = (price,amount) => {
+        this.setState({
+            itemsAmount: amount,
+            price: price,
+        })
+    };
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
@@ -97,7 +109,7 @@ class CartItemComponent extends Component {
                     </View>
                     <Button
                         title='X'
-                        color={constants.colors.darkGrey}
+                        color={constants.colors.white}
                         buttonStyle={{
                             borderRadius: 100,
                             width: 30,
@@ -120,10 +132,18 @@ class CartItemComponent extends Component {
                 >
                     <View style={style.modalStyle}>
                         <View style={style.modalContentStyle}>
-                            <Text style={style.modalTitle}> TITLE </Text>
-                            <View>
-                                <Text>Content</Text>
-                            </View>
+                            <DetailsComponent
+                                mealId={this.props.mealId}
+                                image={this.props.image}
+                                mealName={this.props.mealName}
+                                ingredients={this.props.ingredients}
+                                price={this.props.price}
+                                closeModal={this.closeModal}
+                                estimatedTime={this.props.estimatedTime}
+                                itemsAmount={this.state.itemsAmount}
+                                whereOpened="CART"
+                                setCurrentStatePriceAndAmount={this.setCurrentStatePriceAndAmount}
+                            />
                         </View>
                     </View>
                 </Modal>

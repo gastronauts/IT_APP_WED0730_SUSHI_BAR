@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
 import dictionary from '../translations/translations';
+import DetailsComponent from './DetailsComponent'
 
 
 
@@ -15,11 +16,17 @@ class MenuItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: 0,
+            itemsAmount: 1,
             price: this.props.price,
             modalVisible: false
         };
-    }
+    };
+
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
 
 
     render(){
@@ -141,12 +148,17 @@ class MenuItemComponent extends Component {
                 >
                     <View style={style.modalStyle}>
                         <View style={style.modalContentStyle}>
-                            <Text style={style.modalTitle}> TITLE </Text>
-                            <View>
-
-                                <Text>Content</Text>
-                            </View>
-
+                            <DetailsComponent
+                                mealId={this.props.mealId}
+                                image={this.props.image}
+                                mealName={this.props.mealName}
+                                ingredients={this.props.ingredients}
+                                price={this.props.price}
+                                closeModal={this.closeModal}
+                                estimatedTime={this.props.estimatedTime}
+                                itemsAmount={this.state.itemsAmount}
+                                whereOpened="MENU"
+                            />
                         </View>
                     </View>
                 </Modal>

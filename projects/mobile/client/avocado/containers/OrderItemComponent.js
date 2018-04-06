@@ -15,7 +15,8 @@ class OrderItemComponent extends Component {
         this.state = {
             modalVisible: false
         };
-    }
+    };
+
 
 
     render(){
@@ -75,6 +76,19 @@ class OrderItemComponent extends Component {
                 >
                     <View style={style.modalStyle}>
                         <View style={style.modalContentStyle}>
+                            <View style={style.buttonExitStyle}>
+                                <Text
+                                    style={style.XTextStyle}
+                                    onPress={ () => {
+                                        this.setState({
+                                            modalVisible: false
+                                        })
+                                    }}
+                                >
+                                    X
+                                </Text>
+
+                            </View>
                             <ScrollView>
                                 {items}
                             </ScrollView>
@@ -139,7 +153,23 @@ const style = StyleSheet.create({
     },
     infoRowStyle: {
         paddingBottom: 3
-    }
+    },
+    buttonExitStyle: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        backgroundColor: constants.colors.red,
+        alignSelf: 'flex-end',
+        borderRadius:100,
+        width:20,
+        height:20,
+        marginTop:5,
+        marginRight: 5
+    },
+    XTextStyle: {
+        color: constants.colors.white,
+        paddingLeft: 7,
+        fontSize:10,
+    },
 
 });
 

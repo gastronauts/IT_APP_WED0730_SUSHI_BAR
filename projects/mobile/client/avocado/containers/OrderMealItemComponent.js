@@ -7,7 +7,7 @@ import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
-
+import DetailsComponent from './DetailsComponent'
 
 
 class OrderMealItemComponent extends Component {
@@ -20,6 +20,11 @@ class OrderMealItemComponent extends Component {
         };
     }
 
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
@@ -78,10 +83,17 @@ class OrderMealItemComponent extends Component {
                 >
                     <View style={style.modalStyle}>
                         <View style={style.modalContentStyle}>
-                            <Text style={style.modalTitle}> TITLE </Text>
-                            <View>
-                                <Text>Content</Text>
-                            </View>
+                            <DetailsComponent
+                                mealId={this.props.mealId}
+                                image={this.props.image}
+                                mealName={this.props.mealName}
+                                ingredients={this.props.ingredients}
+                                price={this.props.price}
+                                closeModal={this.closeModal}
+                                estimatedTime={this.props.estimatedTime}
+                                itemsAmount={this.state.itemsAmount}
+                                whereOpened="ORDER"
+                            />
                         </View>
                     </View>
                 </Modal>
