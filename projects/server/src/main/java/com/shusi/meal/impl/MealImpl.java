@@ -59,7 +59,7 @@ public class MealImpl implements MealService{
 
     private Meal checkIfPossibleToDo(Meal meal){
         Collection<Ingredient> mealIngredients = meal.getIngredients();
-        mealIngredients.forEach(currentIngredient -> currentIngredient = ingredientRepository.findOne(currentIngredient.getId()));
+        mealIngredients.forEach(currentIngredient -> currentIngredient.setQuantity(ingredientRepository.findOne(currentIngredient.getId()).getQuantity()));
         if (mealIngredients.stream().anyMatch(ingredient -> ingredient.getQuantity().equals(Presence.EMPTY)))
             meal.setPossibleToDo(false);
         else
