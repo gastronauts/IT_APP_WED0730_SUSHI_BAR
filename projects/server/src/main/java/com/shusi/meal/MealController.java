@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -15,6 +16,11 @@ public class MealController {
 
     @Autowired
     public MealService mealService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Collection<Meal>> getAllMeals(){
+        return ResponseEntity.ok(mealService.getAllMeals());
+    }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Meal> getMeal(@PathVariable Integer id){
@@ -25,7 +31,7 @@ public class MealController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Meal> addMeal(@RequestBody Meal meal){
         try {
-            return new ResponseEntity<>(meal = mealService.addMeal(meal),HttpStatus.OK);
+            return new ResponseEntity<>(mealService.addMeal(meal),HttpStatus.OK);
         }
         catch (IllegalArgumentException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
