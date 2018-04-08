@@ -43,7 +43,7 @@ public class OrderImpl implements OrderService {
     public Order addOrder(Order order) throws IllegalArgumentException {
         if(!orderRepository.exists(order.getId())) {
             Collection<Meal> orderedMeals = order.getMeals();
-            orderedMeals.stream().forEach(currentMeal -> currentMeal = mealRepository.findOne(currentMeal.getId()));
+            orderedMeals.forEach(currentMeal -> currentMeal.setPossibleToDo(mealRepository.findOne(currentMeal.getId()).isPossibleToDo()));
             if (orderedMeals.stream().allMatch(Meal::isPossibleToDo)) {
                 try {
                     if (order.getStatus() == null)
