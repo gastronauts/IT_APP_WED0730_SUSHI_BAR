@@ -27,11 +27,14 @@ import java.util.Date;
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(unique = true)
+    private String id;
 
-    private String status;
-    private Integer summary;
+    @Column(nullable = false)
+    private Status status;
+
+    private Integer summaryPrice;
+
     private Date dateStart;
     private Date dateEnd;
 

@@ -13,8 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Data
@@ -30,7 +30,15 @@ public class Meal implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    private Date properTime;
+    @Column(nullable = false)
+    private String category;
+
+    private String details;
+
+    private String image;
+
+    @Column(nullable = false)
+    private Time properTime;
 
     @ManyToMany
     @Column(nullable = false)
@@ -38,4 +46,7 @@ public class Meal implements Serializable {
 
     @Column(nullable = false)
     private Integer price;
+
+    @Column(nullable = false)
+    private boolean possibleToDo;
 }

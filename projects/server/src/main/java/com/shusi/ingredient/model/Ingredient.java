@@ -27,5 +27,5 @@ public class Ingredient implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Presence quantity;
 }

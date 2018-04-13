@@ -32,4 +32,7 @@ public class Menu implements Serializable {
     @ManyToMany
     @Column(nullable = false)
     private Collection<Meal> meals;
+
+    @Column(nullable = false)
+    private boolean current;
 }

@@ -32,6 +32,8 @@ cmake-build-release/
 
 # IntelliJ
 out/
+projects/server/.idea/
+projects/server/store/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

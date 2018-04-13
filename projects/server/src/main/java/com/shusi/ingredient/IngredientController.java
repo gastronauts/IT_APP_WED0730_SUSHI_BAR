@@ -1,6 +1,7 @@
 package com.shusi.ingredient;
 
 import com.shusi.ingredient.model.Ingredient;
+import com.shusi.ingredient.model.Presence;
 import com.shusi.utilities.MergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -18,6 +20,11 @@ public class IngredientController {
 
     @Autowired
     public IngredientService ingredientService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Collection<Ingredient>> getMeal(){
+        return ResponseEntity.ok(ingredientService.getAllIngredients());
+    }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Ingredient> modifyIngredient(@RequestBody Ingredient ingredient)
@@ -37,6 +44,8 @@ public class IngredientController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Ingredient> addIngredient(@RequestBody Ingredient ingredient){
         try {
+            if(ingredient.getQuantity() == null)
+                ingredient.setQuantity(Presence.EMPTY);
             return new ResponseEntity<>(ingredientService.addIngredient(ingredient),HttpStatus.OK);
         }
         catch (IllegalArgumentException e){
