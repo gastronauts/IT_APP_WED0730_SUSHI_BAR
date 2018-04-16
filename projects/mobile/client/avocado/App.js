@@ -13,6 +13,7 @@ export default class App extends React.Component {
         store.dispatch( i18nActions.setLanguages(languages));
         store.dispatch( i18nActions.setCurrentLanguage("en"));
 
+
           return (
           <Provider store={store}>
             <MainNavigator />

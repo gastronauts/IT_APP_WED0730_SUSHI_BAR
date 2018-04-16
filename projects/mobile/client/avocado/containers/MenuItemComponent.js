@@ -16,7 +16,7 @@ class MenuItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: 1,
+            itemsAmount: 0,
             price: this.props.price,
             modalVisible: false
         };
