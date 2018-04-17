@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 export const addItemToCart = (mealId, mealName, ingredients, price, amount, image, estimatedTime) => {
     return {
@@ -53,5 +54,12 @@ export const emptyCart = () => {
         type: 'EMPTY_CART',
         payload: {
         }
+    }
+};
+
+export const getCurrentMenu = () => {
+    return {
+        type: 'GET_CURRENT_MENU',
+        payload: axios.get('http://sushi.mimosa-soft.com/menu/current')
     }
 };
