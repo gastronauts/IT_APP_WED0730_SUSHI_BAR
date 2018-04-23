@@ -41,10 +41,10 @@ class OrderItemComponent extends Component {
                         {translate(dictionary, 'status', this.props.lang || 'en').status}: {this.props.status}
                     </Text>
                     <Text style={style.infoRowStyle}>
-                        {translate(dictionary, 'sum', this.props.lang || 'en').sum}: {this.props.sum}
+                        {translate(dictionary, 'sum', this.props.lang || 'en').sum}: {this.props.sum} zl
                     </Text>
                     <Text>
-                        {translate(dictionary, 'estimatedTime', this.props.lang || 'en').estimatedTime}: {this.props.estimatedTime}
+                        {translate(dictionary, 'estimatedTime', this.props.lang || 'en').estimatedTime}: {this.props.estimatedTime} min
                     </Text>
                 </View>
                 <View style={style.buttonStyle}>

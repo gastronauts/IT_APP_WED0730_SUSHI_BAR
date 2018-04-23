@@ -8,6 +8,7 @@ import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
 import MenuItemComponent from '../containers/MenuItemComponent'
+import {getCurrentMenu} from '../actions/index'
 
 const cacheImage = images =>
     images.map(image => {
@@ -17,8 +18,33 @@ const cacheImage = images =>
     });
 
 class MenuScreen extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            items: []
+        }
+    }
     componentWillMount() {
         this._loadAssetsAsync();
+
+        let me = this;
+        this.props.getCurrentMenu().then(() => {
+            let items = this.props.menu.map( (item,index) => {
+                return <MenuItemComponent
+                    navi={this.props.navigation}
+                    mealId={item.mealId}
+                    mealName={item.mealName}
+                    ingredients={item.ingredients}
+                    price={item.price}
+                    estimatedTime={item.estimatedTime}
+                    image={item.image}
+                    key={index}
+                />
+            });
+            me.setState({
+                items: items
+            });
+        });
     }
 
     async _loadAssetsAsync() {
@@ -101,54 +127,12 @@ class MenuScreen extends Component {
     };
 
     render() {
-        let ingredients = [
-            "salmon",
-            "kabayaki sauce",
-            "lettuce",
-            "lettuce",
-            "lettuce"
-        ];
+
+
         const {navigate} = this.props.navigation;
         return (
             <ScrollView>
-                <MenuItemComponent
-                    navi={this.props.navigation}
-                    mealId={1} mealName="Futo Grill Kabayaki"
-                    ingredients={ingredients}
-                    price={20}
-                    estimatedTime={17}
-                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent
-                    navi={this.props.navigation}
-                    mealId={2} mealName="Futo Grill Salmon"
-                    ingredients={ingredients}
-                    price={20}
-                    estimatedTime={15}
-                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent
-                    navi={this.props.navigation}
-                    mealId={3}
-                    mealName="Futo Grill Tuna"
-                    ingredients={ingredients}
-                    price={20}
-                    estimatedTime={16}
-                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent
-                    navi={this.props.navigation}
-                    mealId={4}
-                    mealName="Roll Salmon"
-                    ingredients={ingredients}
-                    price={20}
-                    estimatedTime={16}
-                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
-                <MenuItemComponent
-                    navi={this.props.navigation}
-                    mealId={5}
-                    mealName="California"
-                    ingredients={ingredients}
-                    price={20}
-                    estimatedTime={16}
-                    image='http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg'/>
+                {this.state.items}
             </ScrollView>
         )
     }
@@ -187,11 +171,15 @@ const style = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
-    sum: state.CartReducer.sum
+    sum: state.CartReducer.sum,
+    menu: state.MenuReducer.menu,
+    itemsDownloaded: state.MenuReducer.itemsDownloaded
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({}, dispatch)
+    return bindActionCreators({
+        getCurrentMenu: getCurrentMenu
+    }, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
