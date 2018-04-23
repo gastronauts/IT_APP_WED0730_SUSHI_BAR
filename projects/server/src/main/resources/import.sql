@@ -1,12 +1,3 @@
-DELETE FROM ingredient;
-DELETE FROM meal;
-DELETE FROM menu;
-DELETE FROM indent;
-DELETE FROM indent_meals;
-DELETE FROM indent_meals;
-DELETE FROM menu_meals;
-DELETE FROM place;
-
 SELECT setval('ingredient_id_seq', 1, false);
 SELECT setval('meal_id_seq', 1, false);
 SELECT setval('menu_id_seq', 1, false);
