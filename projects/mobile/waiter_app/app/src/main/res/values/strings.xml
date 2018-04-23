@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Orders</string>
 
+    <string name="table_label">Table</string>
+    <string name="id_label">ID</string>
+    <string name="status_label">Status</string>
+
+    <string name="eta_label">ETA</string>
+    <string name="done_label">Done</string>
+
+    <string name="ordered_label">Ordered</string>
+    <string name="preparing_label">Preparing</string>
+    <string name="ready_label">Ready</string>
+    <string name="notification">Notification</string>
     <string name="fetch_server">fetch server</string>
 
 

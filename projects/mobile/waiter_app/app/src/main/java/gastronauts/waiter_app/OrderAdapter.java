@@ -9,54 +9,52 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class OrderAdapter extends ArrayAdapter<OrderModel> implements View.OnClickListener {
+public class OrderAdapter extends ArrayAdapter<Order> implements View.OnClickListener {
 
-    private ArrayList<OrderModel> dataSet;
+    private ArrayList<Order> mData;
     private Context mContext;
 
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtID;
-        TextView txtTable;
-        TextView txtStatus;
-    }
-
-    public OrderAdapter(ArrayList<OrderModel> data, Context context) {
-        super(context, R.layout.single_order, data);
+    public OrderAdapter(ArrayList<Order> data, Context context) {
+        super(context, R.layout.order_list_item_adapter, data);
         this.mContext = context;
-        this.dataSet = data;
+        this.mData = data;
 
     }
 
     @Override
-    public void onClick(View v) {
-        // TODO: Implement clicking order
+    public void onClick(View view) {
+//        dummy
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        OrderModel dataModel = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder; // view lookup cache stored in tag
+        Order entity = (Order) getItem(position);
+        ViewHolder viewHolder;
 
         if (convertView == null) {
-
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.single_order, parent, false);
-            viewHolder.txtID = convertView.findViewById(R.id.txt_id);
-            viewHolder.txtTable = convertView.findViewById(R.id.txt_table);
-            viewHolder.txtStatus = convertView.findViewById(R.id.txt_status);
+            convertView = inflater.inflate(R.layout.order_list_item_adapter, parent, false);
+            viewHolder.txtID = convertView.findViewById(R.id.txtId);
+            viewHolder.txtTable = convertView.findViewById(R.id.txtTable);
+            viewHolder.txtPrice = convertView.findViewById(R.id.txtPrice);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.txtID.setText(dataModel.getId());
-        viewHolder.txtTable.setText(dataModel.getTable());
-        viewHolder.txtStatus.setText(dataModel.getStatus());
+        assert entity != null;
+        viewHolder.txtID.setText(String.valueOf(entity.id));
+        viewHolder.txtTable.setText(String.format("Table %s", String.valueOf(entity.table)));
+        viewHolder.txtPrice.setText(String.format("Price: %s", String.valueOf(entity.summaryPrice)));
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    // View lookup cache
+    private static class ViewHolder {
+        TextView txtID;
+        TextView txtTable;
+        TextView txtPrice;
     }
 }

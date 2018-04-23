@@ -1,113 +1,90 @@
 package gastronauts.waiter_app;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    static WebServiceHandler requestHandler;
+    OrderAdapter ordersAdapter;
+    Button fetchButton;
+    ListView ordersListView;
 
-    ArrayList<OrderModel> dataModels;
-    ListView listView;
+    private void showPopup(String in_text) {
+        try {
+            Intent intent = new Intent(this, OrderDetailsActivity.class);
+            intent.putExtra("RESPONSE_BODY", in_text);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseServerResponse(String response) throws JSONException {
+        ordersAdapter.clear();
+
+        JSONArray array = new JSONArray(response);
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject o = array.getJSONObject(i);
+            ordersAdapter.add(new Order(o.toString()));
+        }
+
+        ordersAdapter.notifyDataSetChanged();
+    }
+
+    private void fetch_server() {
+        requestHandler = new WebServiceHandler() {
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                try {
+                    parseServerResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        requestHandler.execute("http://sushi.mimosa-soft.com/order/status/2");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.order_list_activity);
 
-        ((Button) findViewById(R.id.start_button))
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new WebServiceHandler()
-                                .execute("http://sushi.mimosa-soft.com/order/status/0");
-                    }
-                });
-
-
-        listView = findViewById(R.id.order_list);
-
-        dataModels = new ArrayList<>();
-
-        dataModels.add(new OrderModel(0, 0, 0));
-        dataModels.add(new OrderModel(1, 1, 1));
-        dataModels.add(new OrderModel(2, 2, 2));
-        dataModels.add(new OrderModel(3, 3, 3));
-
-        OrderAdapter adapter = new OrderAdapter(dataModels, getApplicationContext());
-        listView.setAdapter(adapter);
-
-    }
-
-    private class WebServiceHandler extends AsyncTask<String, Void, String> {
-
-        private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
-
-        private String streamToString(InputStream is) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
-
-            try {
-
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line + "\n");
-                }
-
-                reader.close();
-
-            } catch (IOException e) {
-                Log.d(MainActivity.class.getSimpleName(), e.toString());
+        fetchButton = findViewById(R.id.fetchButton);
+        fetchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetch_server();
             }
+        });
 
-            return stringBuilder.toString();
-        }
+        fetch_server();
 
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Processing ...");
-            dialog.show();
-        }
+        ordersAdapter = new OrderAdapter(new ArrayList<Order>(), getApplicationContext());
 
-        @Override
-        protected String doInBackground(String... urls) {
+        ordersListView = findViewById(R.id.order_list);
+        ordersListView.setAdapter(ordersAdapter);
+        ordersListView.setClickable(true);
 
-            try {
-                URL url = new URL(urls[0]);
-                URLConnection connection = url.openConnection();
-
-                InputStream in = new BufferedInputStream(connection.getInputStream());
-                return streamToString(in);
-
-            } catch (Exception e) {
-                Log.d(MainActivity.class.getSimpleName(), e.toString());
-                return null;
+        ordersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Order o = (Order) ordersListView.getItemAtPosition(position);
+                showPopup(o.response_body);
             }
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            dialog.dismiss();
-
-            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
-            toast.show();
-
-        }
+        });
     }
 }
