@@ -1,0 +1,16 @@
+{
+  "en": {
+    "testText": "This is a test text",
+    "menuTitle": "Menu",
+    "orderTitle": "Your order",
+    "cartTitle": "Cart",
+    "tinderRollTitle": "Tinder Roll",
+    "emptyCartText": "You haven't added any meal to your cart yet. Please, check the menu.",
+    "chooseMealAmount": "Choose meal's amount firstly",
+    "mealAdded": "Meal added to cart!",
+    "sum": "Sum",
+    "estimatedTime": "Estimated time",
+    "status": "Status",
+    "details": "Details"
+  }
+}

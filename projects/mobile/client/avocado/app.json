@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "avocado",
+    "description": "Application for sushi restaurant",
+    "slug": "avocado",
+    "privacy": "public",
+    "sdkVersion": "24.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "hideExponentText": false
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.avocado.avocado"
+    }
+  }
+}
