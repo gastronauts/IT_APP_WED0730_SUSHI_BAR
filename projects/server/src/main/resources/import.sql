@@ -1,6 +1,7 @@
 SELECT setval('ingredient_id_seq', 1, false);
 SELECT setval('meal_id_seq', 1, false);
 SELECT setval('menu_id_seq', 1, false);
+SELECT setval('ordered_meal_id_seq', 1, false);
 
 INSERT INTO place (id) VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 
