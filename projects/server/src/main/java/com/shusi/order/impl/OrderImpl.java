@@ -5,13 +5,17 @@ import com.shusi.meal.model.Meal;
 import com.shusi.meal.repository.MealRepository;
 import com.shusi.order.OrderService;
 import com.shusi.order.model.Order;
+import com.shusi.order.model.OrderedMeal;
 import com.shusi.order.model.Status;
 import com.shusi.order.repository.OrderRepository;
+import com.shusi.order.repository.OrderedMealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,9 @@ public class OrderImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    OrderedMealRepository orderedMealRepository;
 
     @Autowired
     private MealRepository mealRepository;
@@ -42,12 +49,13 @@ public class OrderImpl implements OrderService {
     @Override
     public Order addOrder(Order order) throws IllegalArgumentException {
         if(!orderRepository.exists(order.getId())) {
-            Collection<Meal> orderedMeals = order.getMeals();
-            orderedMeals.forEach(currentMeal -> currentMeal.setPossibleToDo(mealRepository.findOne(currentMeal.getId()).isPossibleToDo()));
-            if (orderedMeals.stream().allMatch(Meal::isPossibleToDo)) {
+            Collection<OrderedMeal> orderedMeals = order.getMeals();
+            orderedMeals.forEach(currentMeal -> currentMeal.getMeal().setPossibleToDo(mealRepository.findOne(currentMeal.getMeal().getId()).isPossibleToDo()));
+            if (orderedMeals.stream().allMatch(u -> u.getMeal().isPossibleToDo())) {
                 try {
                     if (order.getStatus() == null)
                         order.setStatus(Status.ORDERED);
+                    order.getMeals().forEach(o -> o = orderedMealRepository.save(o));
                     return orderRepository.save(order);
                 } catch (DataAccessException e) {
                     throw new IllegalArgumentException(e);
