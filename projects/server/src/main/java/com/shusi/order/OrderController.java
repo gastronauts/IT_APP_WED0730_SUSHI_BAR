@@ -19,6 +19,9 @@ public class OrderController {
     @Autowired
     public OrderService orderService;
 
+    @Autowired
+    public OrderedMealService orderedMealService;
+
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public ResponseEntity<Order> getOrder(@PathVariable String id){
         return orderService.getOrderById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
@@ -51,8 +54,9 @@ public class OrderController {
         Optional<Order> originalMeal = orderService.getOrderById(order.getId());
         if(!originalMeal.isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        Order finalOrder = MergeTool.mergeObjects(order,originalMeal.get());
         try {
+            order.getMeals().stream().forEach(o -> o = orderedMealService.addOrders(o));
+            Order finalOrder = MergeTool.mergeObjects(order,originalMeal.get());
             return new ResponseEntity<>(orderService.modifyOrder(finalOrder),HttpStatus.OK);
         }
         catch (IllegalArgumentException e) {
