@@ -16,4 +16,6 @@ public interface MealService {
     Meal addMeal(Meal meal) throws IllegalArgumentException;
 
     Meal modifyMeal(Meal meal) throws IllegalArgumentException;
+
+    Meal deleteIngredientsFormMeal (Meal meal, Collection<Integer> ingredients) throws IllegalArgumentException;
 }
