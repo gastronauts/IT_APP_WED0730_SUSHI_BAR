@@ -1,6 +1,7 @@
 export default function OrderReducer(
     state = {
-        orders: []
+        orders: [],
+        table: null
     },
     action
 ) {
@@ -21,6 +22,16 @@ export default function OrderReducer(
 
             state = {...state,
                 orders: [...state.orders, newOrder]
+            };
+
+            break;
+
+        case 'POST_ORDER_FULFILLED':
+            break;
+
+        case 'SET_TABLE_NUMBER':
+            state = {...state,
+                table: action.payload.tableNumber
             };
 
             break;

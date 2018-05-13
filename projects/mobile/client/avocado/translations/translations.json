@@ -11,6 +11,9 @@
     "sum": "Sum",
     "estimatedTime": "Estimated time",
     "status": "Status",
-    "details": "Details"
+    "details": "Details",
+    "tableNumber": "Insert table number here",
+    "emptyField": "This field cannot be empty",
+    "stringValue": "This field must be a number"
   }
 }

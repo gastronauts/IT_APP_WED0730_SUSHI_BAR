@@ -14,7 +14,7 @@ export default function MenuReducer(
                     category: item.category,
                     details: item.details,
                     image: item.image,
-                    estimatedTime: Math.floor((Math.random() * 25) + 15),
+                    estimatedTime: item.amount,
                     ingredients: item.ingredients.map( (ing) => { return ing.name} ),
                     price: item.price,
                     possibleToDo: item.possibleToDo

@@ -12,11 +12,11 @@ import DetailsComponent from './DetailsComponent'
 
 
 
-class MenuItemComponent extends Component {
+class UnavailableMenuItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: 0,
+            itemsAmount: 1,
             price: this.props.price,
             modalVisible: false
         };
@@ -42,6 +42,7 @@ class MenuItemComponent extends Component {
                     />
                 </View>
                 <View style = {style.descriptionViewStyle}>
+
                     <Text style={style.title}>{this.props.mealName}</Text>
                     <View style = {style.ingredientsStyle}>
                         <Text style={{fontSize:12}}>{ingredients}</Text>
@@ -58,86 +59,16 @@ class MenuItemComponent extends Component {
                     </Text>
                 </View>
                 <View style={style.priceColumnStyle}>
+                    <Icon
+                        name="emoticon-sad"
+                        type="material-community"
+                        size={28}
+                        color="#ddd"
+                    />
+                    <Text style={style.unavailableStyle}>Unavailable</Text>
                     <Text>{this.state.price}zł</Text>
                 </View>
 
-                <View style={style.amountColumnStyle}>
-                    <View style={style.counterRowStyle}>
-                        <Text
-                            style={style.amountMinusStyle}
-                            onPress = { () => {
-                                let decAmount = this.state.itemsAmount > 0 ? this.state.itemsAmount -1 : 0;
-                                let newPrice = decAmount > 1 ? decAmount * this.props.price : this.props.price;
-                                this.setState({
-                                    itemsAmount: decAmount,
-                                    price: newPrice
-                                })
-                            }}
-                        >
-                            -
-                        </Text>
-                        <View style={style.amountCounterStyle}>
-
-                            <Text style={style.amountCounterText}>
-                                {this.state.itemsAmount}
-                            </Text>
-
-                        </View>
-                        <Text
-                            style={style.amountPlusStyle}
-                            onPress = { () => {
-                                let incAmount = this.state.itemsAmount + 1;
-                                let newPrice = incAmount > 1 ? incAmount * this.props.price : this.props.price;
-                                this.setState({
-                                    itemsAmount: incAmount,
-                                    price: newPrice
-                                })
-                            }}
-                        >
-                            +
-                        </Text>
-                    </View>
-                    <Button
-                        title='+'
-                        color={constants.colors.darkGrey}
-                        buttonStyle={{
-                            borderRadius: 100,
-                            width: 30,
-                            height:30,
-                            backgroundColor: constants.colors.yellow,
-                        }}
-                        onPress = { () => {
-                            if(this.state.itemsAmount > 0){
-                                this.props.addItemToCart(
-                                    this.props.mealId,
-                                    this.props.mealName,
-                                    this.props.ingredients,
-                                    this.props.price,
-                                    this.state.itemsAmount,
-                                    this.props.image,
-                                    this.props.estimatedTime);
-                                this.setState({
-                                    itemsAmount: 0,
-                                    price: this.props.price
-                                });
-                                ToastAndroid.showWithGravity(
-                                    translate(dictionary, 'mealAdded', this.props.lang || 'en').mealAdded,
-                                    ToastAndroid.SHORT,
-                                    ToastAndroid.CENTER
-                                );
-                            }
-                            else{
-                                ToastAndroid.showWithGravity(
-                                    translate(dictionary, 'chooseMealAmount', this.props.lang || 'en').chooseMealAmount,
-                                    ToastAndroid.SHORT,
-                                    ToastAndroid.CENTER
-                                );
-                            }
-
-                        }}
-                    />
-
-                </View>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -157,7 +88,7 @@ class MenuItemComponent extends Component {
                                 closeModal={this.closeModal}
                                 estimatedTime={this.props.estimatedTime}
                                 itemsAmount={this.state.itemsAmount}
-                                whereOpened="MENU"
+                                whereOpened="ORDER"
                             />
                         </View>
                     </View>
@@ -203,7 +134,8 @@ const style = StyleSheet.create({
     },
     descriptionViewStyle:{
         flex: 3,
-        flexDirection: "column"
+        flexDirection: "column",
+        paddingRight: 8
     },
     imageStyle: {
         width:70,
@@ -215,7 +147,7 @@ const style = StyleSheet.create({
         paddingBottom: 5
     },
     priceColumnStyle:{
-        flex: 0.7,
+        flex: 1,
         justifyContent: "flex-end"
     },
     amountColumnStyle:{
@@ -288,10 +220,15 @@ const style = StyleSheet.create({
         marginRight: 20,
         textAlign: "center"
     },
+    unavailableStyle: {
+        fontSize: 10,
+        color: "red",
+        paddingTop: 5
+    }
 
 });
 
-MenuItemComponent.propTypes = {
+UnavailableMenuItemComponent.propTypes = {
     mealId: PropTypes.number,
     mealName: PropTypes.string,
     ingredients: PropTypes.array,
@@ -301,4 +238,4 @@ MenuItemComponent.propTypes = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuItemComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(UnavailableMenuItemComponent);

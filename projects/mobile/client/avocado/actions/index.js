@@ -63,3 +63,26 @@ export const getCurrentMenu = () => {
         payload: axios.get('http://sushi.mimosa-soft.com/menu/current')
     }
 };
+
+export const postOrder = (orderId, tableId, meals) => {
+    return {
+        type: 'POST_ORDER',
+        payload: axios.post('http://sushi.mimosa-soft.com/order', {
+            id: orderId,
+            table: {
+                id: tableId
+            },
+            meals: meals,
+            status: 0
+        })
+    }
+};
+
+export const setTableNumber = (tableNumber) => {
+    return {
+        type: 'SET_TABLE_NUMBER',
+        payload: {
+            tableNumber: tableNumber
+        }
+    }
+};
