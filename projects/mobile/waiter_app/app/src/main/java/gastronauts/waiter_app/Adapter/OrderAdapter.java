@@ -1,34 +1,33 @@
-package gastronauts.waiter_app;
+package gastronauts.waiter_app.Adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import gastronauts.waiter_app.Model.Order;
+import gastronauts.waiter_app.R;
 
 import java.util.ArrayList;
 
-public class OrderAdapter extends ArrayAdapter<Order> implements View.OnClickListener {
+public class OrderAdapter extends ArrayAdapter<Order> {
 
-    private ArrayList<Order> mData;
-    private Context mContext;
+    private static class ViewHolder {
+        TextView txtID;
+        TextView txtTable;
+        TextView txtPrice;
+    }
 
     public OrderAdapter(ArrayList<Order> data, Context context) {
         super(context, R.layout.order_list_item_adapter, data);
-        this.mContext = context;
-        this.mData = data;
-
     }
 
+    @NonNull
     @Override
-    public void onClick(View view) {
-//        dummy
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Order entity = (Order) getItem(position);
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        Order entity = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -44,17 +43,9 @@ public class OrderAdapter extends ArrayAdapter<Order> implements View.OnClickLis
         }
 
         assert entity != null;
-        viewHolder.txtID.setText(String.valueOf(entity.id));
-        viewHolder.txtTable.setText(String.format("Table %s", String.valueOf(entity.table)));
-        viewHolder.txtPrice.setText(String.format("Price: %s", String.valueOf(entity.summaryPrice)));
-        // Return the completed view to render on screen
+        viewHolder.txtID.setText(String.format("Order Number: %s", entity.getId()));
+        viewHolder.txtTable.setText(String.format("Table %s", entity.getTable()));
+        viewHolder.txtPrice.setText(String.format("Total Price: %s", entity.getSummaryPrice()));
         return convertView;
-    }
-
-    // View lookup cache
-    private static class ViewHolder {
-        TextView txtID;
-        TextView txtTable;
-        TextView txtPrice;
     }
 }
