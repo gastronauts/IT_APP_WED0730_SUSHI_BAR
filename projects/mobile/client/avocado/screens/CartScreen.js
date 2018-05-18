@@ -104,7 +104,17 @@ class CartScreen extends Component {
 
     render() {
         let items = this.props.itemsInCart.map( (item, index) => {
-            return <CartItemComponent navi={this.props.navigation} mealId={item.mealId} mealName={item.mealName} ingredients={item.ingredients} price={item.price} image={item.image} amount={item.amount} key={index}/>
+            return <CartItemComponent
+                navi={this.props.navigation}
+                mealId={item.mealId}
+                mealName={item.mealName}
+                ingredients={item.ingredients}
+                price={item.price}
+                image={item.image}
+                amount={item.amount}
+                key={index}
+                details={item.details}
+            />
         });
 
         if(items.length === 0){

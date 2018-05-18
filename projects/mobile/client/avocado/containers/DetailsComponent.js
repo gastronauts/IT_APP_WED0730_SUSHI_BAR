@@ -171,19 +171,21 @@ class DetailsComponent extends Component {
 
 
         return (
-            <View style={style.mainViewStyle}>
-                <View style={style.buttonExitStyle}>
-                   <Text
-                       style={style.XTextStyle}
-                       onPress={ () => {
-                           this.props.closeModal();
-                       }}
-                   >
-                       X
-                   </Text>
+            <View style={{flexDirection:'column'}}>
+                <View style={style.buttonExtiRow}>
+                    <View style={style.buttonExitStyle}>
+                        <Text
+                            style={style.XTextStyle}
+                            onPress={ () => {
+                                this.props.closeModal();
+                            }}
+                        >
+                            X
+                        </Text>
 
+                    </View>
                 </View>
-
+            <View style={style.mainViewStyle}>
                 <Image
                     style={style.imageStyle}
                     source={{uri: this.props.image}}
@@ -197,11 +199,14 @@ class DetailsComponent extends Component {
                 <Text style={style.detailsStyle}>
                     {translate(dictionary, 'details', this.props.lang || 'en').details}:
                 </Text>
-
+                <Text style={style.detailsContentStyle}>
+                    {this.props.details}
+                </Text>
 
                 {btn}
 
 
+            </View>
             </View>
         )
     }
@@ -227,7 +232,8 @@ DetailsComponent.propTypes = {
     price: PropTypes.number,
     estimatedTime: PropTypes.number,
     itemsAmount: PropTypes.number,
-    whereOpened: PropTypes.string
+    whereOpened: PropTypes.string,
+    details: PropTypes.string
 };
 
 const style = StyleSheet.create({
@@ -238,12 +244,13 @@ const style = StyleSheet.create({
         alignItems: 'center'
     },
     imageStyle: {
-        width: 150,
-        height: 150
+        width: 170,
+        height: 170
     },
     mealNameStyle: {
         fontSize: 18,
-        color: constants.colors.darkGrey
+        color: constants.colors.darkGrey,
+        marginBottom: 10
     },
     ingredientsStyle: {
         fontSize: 11,
@@ -253,6 +260,13 @@ const style = StyleSheet.create({
         paddingTop: 10,
         marginRight: 20,
         marginLeft: 20
+    },
+    buttonExtiRow:{
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        alignSelf: 'flex-end',
+        marginTop: 6,
+        justifyContent: 'flex-end'
     },
     buttonExitStyle: {
         flexDirection: 'row',
@@ -267,15 +281,20 @@ const style = StyleSheet.create({
         color: constants.colors.white,
         paddingLeft: 7,
         fontSize:10,
+        paddingBottom: 4
     },
     detailsStyle: {
         marginTop: 40,
         fontSize: 10
     },
+    detailsContentStyle: {
+        marginTop: 10,
+        fontSize: 10
+    },
     priceStyle: {
         fontSize: 18,
         color: constants.colors.darkGrey,
-        marginTop: 80,
+        marginTop: 70,
         marginLeft: 16
     },
     amountCounterStyle: {

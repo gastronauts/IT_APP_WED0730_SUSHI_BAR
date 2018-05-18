@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import { View, StyleSheet} from 'react-native';
+import {Text, Button} from 'react-native-elements';
 import constants from '../constants/constants'
 import translate from "translatr";
 import dictionary from '../translations/translations';
@@ -34,9 +34,11 @@ class CartInfoComponent extends Component {
                                     amount: item.amount
                                 }
                             });
-                            this.props.addOrder(uuidv3(), this.props.itemsInCart,'waiting', this.props.sum, this.props.estimatedTime).then( () => {
+                            let orderId = uuidv3();
+                            this.props.addOrder(orderId, this.props.itemsInCart,'ORDERED', this.props.sum, this.props.estimatedTime).then( () => {
+                                let price = this.props.sum;
                                 this.props.emptyCart();
-                                this.props.postOrder(uuidv3(), this.props.table, itemsInCartToPost ).then( () => {
+                                this.props.postOrder(orderId, this.props.table, itemsInCartToPost, price ).then( () => {
                                     this.props.navi.dispatch(
                                         NavigationActions.navigate({ routeName: "Menu" })
                                     );
@@ -82,7 +84,6 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'stretch'
     }
-
 });
 
 

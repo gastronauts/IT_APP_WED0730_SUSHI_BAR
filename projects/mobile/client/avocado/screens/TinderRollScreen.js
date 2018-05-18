@@ -7,6 +7,7 @@ import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
 import { NavigationActions } from "react-navigation";
+import TinderRollComponent from '../containers/TinderRollComponent';
 
 class TinderRollScreen extends Component {
 
@@ -16,6 +17,15 @@ class TinderRollScreen extends Component {
             sum: this.props.sum
         });
     }
+
+    componentWillReceiveProps(nextProps){
+        //console.log('MENU',  nextProps.sum, this.props.navigation.state.params.sum,this.props.navigation);
+        if(typeof this.props.navigation !== 'undefined' && typeof this.props.navigation.state.params !== 'undefined' && this.props.navigation.state.params.sum !== nextProps.sum){
+            this.props.navigation.setParams({
+                sum: nextProps.sum
+            });
+        }
+    };
 
     static navigationOptions = ({navigation}) => {
         const {state, setParams, navigate} = navigation;
@@ -64,7 +74,7 @@ class TinderRollScreen extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <Text>Tinder Roll screen content</Text>
+            <TinderRollComponent/>
         )
     }
 }

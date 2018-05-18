@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image, ToastAndroid, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import { View, StyleSheet, Image, Modal } from 'react-native';
+import {Text, Icon} from 'react-native-elements';
 import {addItemToCart} from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
@@ -89,6 +89,7 @@ class UnavailableMenuItemComponent extends Component {
                                 estimatedTime={this.props.estimatedTime}
                                 itemsAmount={this.state.itemsAmount}
                                 whereOpened="ORDER"
+                                details={this.props.details}
                             />
                         </View>
                     </View>
@@ -234,7 +235,8 @@ UnavailableMenuItemComponent.propTypes = {
     ingredients: PropTypes.array,
     price: PropTypes.number,
     image: PropTypes.string,
-    estimatedTime: PropTypes.number
+    estimatedTime: PropTypes.number,
+    details: PropTypes.string
 };
 
 

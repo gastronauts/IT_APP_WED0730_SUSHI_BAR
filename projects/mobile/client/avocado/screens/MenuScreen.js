@@ -50,6 +50,7 @@ class MenuScreen extends Component {
                     estimatedTime={item.estimatedTime}
                     image={item.image}
                     key={index}
+                    details={item.details}
                 />
                     : <UnavailableMenuItemCoomponent
                         navi={this.props.navigation}
@@ -60,6 +61,7 @@ class MenuScreen extends Component {
                         estimatedTime={item.estimatedTime}
                         image={item.image}
                         key={index}
+                        details={item.details}
                     />
             });
             me.setState({

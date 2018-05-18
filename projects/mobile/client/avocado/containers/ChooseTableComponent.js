@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {View, StyleSheet, Image, ToastAndroid} from 'react-native';
-import {Text,Button,FormLabel, FormInput, FormValidationMessage} from 'react-native-elements';
-import PropTypes from 'prop-types';
+import {View, StyleSheet} from 'react-native';
+import {Button, FormInput, FormValidationMessage} from 'react-native-elements';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
@@ -18,10 +17,6 @@ class ChooseTableComponent extends Component {
             tabelNumber: null
         }
     }
-
-    checkInput = () => {
-        console.log('test')
-    };
 
     render(){
 

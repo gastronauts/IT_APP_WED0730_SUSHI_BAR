@@ -36,6 +36,28 @@ export default function OrderReducer(
 
             break;
 
+        case 'GET_STATUSES_OF_ORDER_FULFILLED':
+            let newOrders = state.orders.map( (item) => {
+                let newStatus = action.payload.data.find((element) => {
+                    return element.id === item.orderId;
+                });
+                return {...item, status: newStatus ? newStatus.status : null }
+            });
+
+            let finalNewOrders = [];
+
+            newOrders.forEach((item) => {
+                if(item.status !== null){
+                    finalNewOrders.push(item);
+                }
+            });
+
+            state = {...state,
+                orders : finalNewOrders
+            };
+
+            break;
+
         default:
             return state;
     }

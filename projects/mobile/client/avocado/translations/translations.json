@@ -14,6 +14,7 @@
     "details": "Details",
     "tableNumber": "Insert table number here",
     "emptyField": "This field cannot be empty",
-    "stringValue": "This field must be a number"
+    "stringValue": "This field must be a number",
+    "emptyOrdersText": "You don't have any orders yet."
   }
 }

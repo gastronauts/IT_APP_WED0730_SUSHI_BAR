@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Image, ToastAndroid, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import {Text, Button} from 'react-native-elements';
 import {addItemToCart} from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
@@ -115,7 +115,8 @@ class MenuItemComponent extends Component {
                                     this.props.price,
                                     this.state.itemsAmount,
                                     this.props.image,
-                                    this.props.estimatedTime);
+                                    this.props.estimatedTime,
+                                    this.props.details);
                                 this.setState({
                                     itemsAmount: 0,
                                     price: this.props.price
@@ -158,6 +159,7 @@ class MenuItemComponent extends Component {
                                 estimatedTime={this.props.estimatedTime}
                                 itemsAmount={this.state.itemsAmount}
                                 whereOpened="MENU"
+                                details={this.props.details}
                             />
                         </View>
                     </View>
@@ -297,7 +299,8 @@ MenuItemComponent.propTypes = {
     ingredients: PropTypes.array,
     price: PropTypes.number,
     image: PropTypes.string,
-    estimatedTime: PropTypes.number
+    estimatedTime: PropTypes.number,
+    details: PropTypes.string
 };
 
 

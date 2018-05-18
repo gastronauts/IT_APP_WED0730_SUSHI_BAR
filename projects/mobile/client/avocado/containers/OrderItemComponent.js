@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image, Modal,ScrollView } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import { View, StyleSheet, Modal,ScrollView } from 'react-native';
+import {Text, Button} from 'react-native-elements';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
@@ -31,6 +31,7 @@ class OrderItemComponent extends Component {
                 amount={meal.amount}
                 estimatedTime={meal.estimatedTime}
                 key={index}
+                details={meal.details}
             />
         });
 
