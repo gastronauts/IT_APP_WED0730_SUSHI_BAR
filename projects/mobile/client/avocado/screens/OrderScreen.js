@@ -8,8 +8,15 @@ import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
 import OrderItemComponent from '../containers/OrderItemComponent';
+import {getStatusesOfOrders} from '../actions/index';
 
 class OrderScreen extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            getOrdersCalled: false
+        }
+    }
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -24,7 +31,19 @@ class OrderScreen extends Component {
                 sum: nextProps.sum
             });
         }
+        if(!this.state.getOrdersCalled){
+            if(this.props.table && typeof this.props.table){
+                setInterval( () => {
+                    this.props.getStatusesOfOrders(this.props.table)
+                }, 60000)
+            }
+            this.setState({
+                getOrdersCalled: true
+            });
+        }
     };
+
+
 
 
     static navigationOptions = ({navigation}) => {
@@ -94,6 +113,12 @@ class OrderScreen extends Component {
             />
         });
 
+        if(items.length === 0){
+            items = <Text style={style.emptyCartTextStyle}>
+                {translate(dictionary, 'emptyOrdersText', this.props.lang || 'en').emptyOrdersText}
+            </Text>
+        }
+
         const {navigate} = this.props.navigation;
         return (
             <ScrollView>
@@ -131,17 +156,27 @@ const style = StyleSheet.create({
     cartAmountStyle: {
         color: '#fff',
         fontSize: 10
+    },
+    emptyCartTextStyle: {
+        fontSize: 20,
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight:10,
+        textAlign: 'center'
     }
 });
 
 const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
     orders: state.OrderReducer.orders,
-    sum: state.CartReducer.sum
+    sum: state.CartReducer.sum,
+    table: state.OrderReducer.table
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({}, dispatch)
+    return bindActionCreators({
+        getStatusesOfOrders:getStatusesOfOrders
+    }, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const addItemToCart = (mealId, mealName, ingredients, price, amount, image, estimatedTime) => {
+export const addItemToCart = (mealId, mealName, ingredients, price, amount, image, estimatedTime,details) => {
     return {
         type: 'ADD_ITEM_TO_CART',
         payload: {
@@ -10,7 +10,8 @@ export const addItemToCart = (mealId, mealName, ingredients, price, amount, imag
             price: price,
             amount: amount,
             image: image,
-            estimatedTime: estimatedTime
+            estimatedTime: estimatedTime,
+            details: details
         }
     }
 };
@@ -61,5 +62,36 @@ export const getCurrentMenu = () => {
     return {
         type: 'GET_CURRENT_MENU',
         payload: axios.get('http://sushi.mimosa-soft.com/menu/current')
+    }
+};
+
+export const postOrder = (orderId, tableId, meals, price) => {
+    return {
+        type: 'POST_ORDER',
+        payload: axios.post('http://sushi.mimosa-soft.com/order', {
+            id: orderId,
+            table: {
+                id: tableId
+            },
+            meals: meals,
+            status: 0,
+            summaryPrice: price
+        })
+    }
+};
+
+export const setTableNumber = (tableNumber) => {
+    return {
+        type: 'SET_TABLE_NUMBER',
+        payload: {
+            tableNumber: tableNumber
+        }
+    }
+};
+
+export const getStatusesOfOrders = (tableNumber) => {
+    return {
+        type: 'GET_STATUSES_OF_ORDER',
+        payload: axios.get('http://sushi.mimosa-soft.com/order/table/current/' + tableNumber)
     }
 };

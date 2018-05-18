@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Image, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
@@ -93,6 +93,7 @@ class OrderMealItemComponent extends Component {
                                 estimatedTime={this.props.estimatedTime}
                                 itemsAmount={this.state.itemsAmount}
                                 whereOpened="ORDER"
+                                details={this.props.details}
                             />
                         </View>
                     </View>
@@ -238,7 +239,8 @@ OrderMealItemComponent.propTypes = {
     price: PropTypes.number,
     image: PropTypes.string,
     amount: PropTypes.number,
-    estimatedTime: PropTypes.number
+    estimatedTime: PropTypes.number,
+    details: PropTypes.string
 };
 
 

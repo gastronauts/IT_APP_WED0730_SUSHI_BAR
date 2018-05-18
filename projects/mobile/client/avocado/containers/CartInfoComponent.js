@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Image, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import { View, StyleSheet} from 'react-native';
+import {Text, Button} from 'react-native-elements';
 import constants from '../constants/constants'
 import translate from "translatr";
 import dictionary from '../translations/translations';
-import {addOrder, emptyCart} from '../actions/index';
+import {addOrder, emptyCart, postOrder} from '../actions/index';
 import uuidv3 from 'uuid';
 import { NavigationActions } from "react-navigation";
 
@@ -26,11 +26,24 @@ class CartInfoComponent extends Component {
                         title = 'ORDER'
                         color = {constants.colors.white}
                         onPress = { () => {
-                            this.props.addOrder(uuidv3(), this.props.itemsInCart,'waiting', this.props.sum, this.props.estimatedTime).then( () => {
+                            let itemsInCartToPost = this.props.itemsInCart.map( (item) => {
+                                return {
+                                    meal: {
+                                        id: item.mealId,
+                                    },
+                                    amount: item.amount
+                                }
+                            });
+                            let orderId = uuidv3();
+                            this.props.addOrder(orderId, this.props.itemsInCart,'ORDERED', this.props.sum, this.props.estimatedTime).then( () => {
+                                let price = this.props.sum;
                                 this.props.emptyCart();
-                                this.props.navi.dispatch(
-                                    NavigationActions.navigate({ routeName: "Menu" })
-                                );
+                                this.props.postOrder(orderId, this.props.table, itemsInCartToPost, price ).then( () => {
+                                    this.props.navi.dispatch(
+                                        NavigationActions.navigate({ routeName: "Menu" })
+                                    );
+                                })
+
                             })
                         }}
                         buttonStyle={{
@@ -48,13 +61,15 @@ const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
     sum: state.CartReducer.sum,
     estimatedTime: state.CartReducer.estimatedTime,
-    itemsInCart: state.CartReducer.itemsInCart
+    itemsInCart: state.CartReducer.itemsInCart,
+    table: state.OrderReducer.table
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         addOrder: addOrder,
-        emptyCart:emptyCart
+        emptyCart: emptyCart,
+        postOrder: postOrder
     }, dispatch)
 };
 
@@ -69,7 +84,6 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'stretch'
     }
-
 });
 
 
