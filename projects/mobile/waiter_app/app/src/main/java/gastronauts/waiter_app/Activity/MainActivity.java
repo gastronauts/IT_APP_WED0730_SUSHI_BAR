@@ -161,9 +161,13 @@ public class MainActivity extends AppCompatActivity {
         readyOrdersListView.setOnItemClickListener((arg0, arg1, position, arg3) ->
                 startDetailsActivity((Order) readyOrdersListView.getItemAtPosition(position)));
 
+        if (savedInstanceState != null) {
+            is_handler_running = savedInstanceState.getBoolean("IS_HANDLER_RUNNING");
+        }
+
         if (!is_handler_running) {
-            handler.post(runnableCode);
             is_handler_running = true;
+            handler.post(runnableCode);
         }
 
     }
@@ -179,6 +183,5 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         ReadyOrdersTask.old_id_arr = savedInstanceState.getStringArrayList("ID_RETENTION");
-        is_handler_running = savedInstanceState.getBoolean("IS_HANDLER_RUNNING");
     }
 }
