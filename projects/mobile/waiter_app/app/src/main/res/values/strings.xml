@@ -11,6 +11,12 @@
     <string name="ordered_label">Ordered</string>
     <string name="preparing_label">Preparing</string>
     <string name="ready_label">Ready</string>
+    <string name="notification">Notification</string>
+    <string name="fetch_server">fetch server</string>
+    <string name="preparing">Preparing</string>
+    <string name="ready">Ready</string>
+    <string name="ordered_items">Ordered Items</string>
+    <string name="order_served">Order Served</string>
 
 
 </resources>
