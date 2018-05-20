@@ -5,8 +5,8 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
+import gastronauts.waiter_app.Model.Meal;
 import gastronauts.waiter_app.Model.Order;
 import gastronauts.waiter_app.R;
 import gastronauts.waiter_app.WebAPI.WebServiceSender;
@@ -23,34 +23,27 @@ public class OrderDetailsActivity extends Activity {
         setContentView(R.layout.details_activity);
 
         TextView textTitle = findViewById(R.id.txtTitle);
-        TextView textBody = findViewById(R.id.txtBody);
+        TextView textPrice = findViewById(R.id.txtPrice);
 
         order = (Order) getIntent().getSerializableExtra("ORDER");
 
         textTitle.setText(String.format("Table %s", order.getTable()));
-        textBody.setText(order.getMeals().toString());
-
-        Button notifyButton = findViewById(R.id.notificationButton);
-        notifyButton.setOnClickListener(v -> {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), DEFAULT_CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setContentTitle("Order Ready")
-                    .setContentText("Order at Table " + order.getTable() + " is ready to be served!")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            assert notificationManager != null;
-            notificationManager.notify(0, mBuilder.build());
-
-        });
+        textPrice.setText(String.format("Total Price: %s $", order.getSummaryPrice()));
 
         Button closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(v -> {
             WebServiceSender requestHandler = new WebServiceSender();
             requestHandler.execute("http://sushi.mimosa-soft.com/order/served/" + order.getId());
-            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            assert notificationManager != null;
+            notificationManager.cancel(Integer.parseInt(order.getTable()));
             finish();
         });
+
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.simple_list_item, order.getMeals());
+        ListView listMeals = findViewById(R.id.listMeals);
+        listMeals.setAdapter(adapter);
     }
 
 

@@ -6,6 +6,7 @@
     <color name="tab_background_selected">#eeeeee</color>
     <color name="tab_background_unselected">#424242</color>
     <color name="tabTextUnselected">#eeeeee</color>
+    <color name="textColor">#424242</color>
 </resources>
 
 

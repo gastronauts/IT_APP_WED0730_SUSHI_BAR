@@ -39,10 +39,6 @@ public class Meal implements Serializable {
 
     @Override
     public String toString() {
-        return "Meal{" +
-                "name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", amount='" + amount + '\'' +
-                '}';
+        return name + " x " + amount + " : " + price + " $";
     }
 }

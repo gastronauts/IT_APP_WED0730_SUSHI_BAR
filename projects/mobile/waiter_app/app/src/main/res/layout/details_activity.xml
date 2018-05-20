@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="81dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/notificationButton"
+    <TextView
+            android:id="@+id/txtTitle"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Push Notification" />
+            android:textSize="25sp"/>
 
-        <LinearLayout
+    <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/ordered_items"
+            android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/txtBody"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <Button
+        <Button
                 android:id="@+id/closeButton"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:text="@string/order_served"
+                android:padding="5dp"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="Close" />
-        </LinearLayout>
+                android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+                android:background="@color/tab_background_selected"/>
 
-    </LinearLayout>
+        <TextView
+                android:id="@+id/txtPrice"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="left"
+                android:layout_above="@id/closeButton" tools:ignore="RtlHardcoded"/>
 
-</android.support.constraint.ConstraintLayout>
+        <ListView
+                android:id="@+id/listMeals"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="#EEE"
+                android:layout_above="@id/txtPrice"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

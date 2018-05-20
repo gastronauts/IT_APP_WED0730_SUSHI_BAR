@@ -2,6 +2,7 @@ package gastronauts.waiter_app.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Order implements Serializable {
 
@@ -69,5 +70,22 @@ public class Order implements Serializable {
                 ", status='" + status + '\'' +
                 ", meals=" + meals +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(table, order.table) &&
+                Objects.equals(summaryPrice, order.summaryPrice) &&
+                Objects.equals(status, order.status);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, table, summaryPrice, status);
     }
 }
