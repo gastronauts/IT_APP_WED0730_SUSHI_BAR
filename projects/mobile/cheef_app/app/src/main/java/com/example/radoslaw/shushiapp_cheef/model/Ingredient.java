@@ -4,7 +4,7 @@ package com.example.radoslaw.shushiapp_cheef.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class IngredientResponse {
+public class Ingredient {
 
     @SerializedName("id")
     @Expose
