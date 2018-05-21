@@ -3,7 +3,9 @@ package com.example.radoslaw.shushiapp_cheef.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Meal_ {
+import java.io.Serializable;
+
+public class Meal_ implements Serializable{
 
     @SerializedName("id")
     @Expose

@@ -1,10 +1,11 @@
 package com.example.radoslaw.shushiapp_cheef.model;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Order {
+public class Order implements Serializable{
 
     @SerializedName("id")
     @Expose

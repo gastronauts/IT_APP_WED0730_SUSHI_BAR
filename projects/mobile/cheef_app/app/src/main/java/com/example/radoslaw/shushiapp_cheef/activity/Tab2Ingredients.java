@@ -43,10 +43,10 @@ public class Tab2Ingredients extends Fragment {
             @Override
             public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
                 List<Ingredient> ingre = response.body();
-                Toast.makeText(getContext(),ingre.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),ingre.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("KULA",new GsonBuilder().setPrettyPrinting().create().toJson(response));
 
-                listView = (ListView) getView().findViewById(R.id.item_pagination);
+                listView = getView().findViewById(R.id.item_pagination);
                 IngredientAdapter adapter = new IngredientAdapter(getActivity(), ingre);
                 listView.setAdapter(adapter);
 
