@@ -22,8 +22,8 @@ import static android.app.NotificationChannel.DEFAULT_CHANNEL_ID;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static OrderAdapter preparingOrdersAdapter;
     private static OrderAdapter readyOrdersAdapter;
+    private static OrderAdapter servedOrdersAdapter;
 
 
     private Handler handler = new Handler();
@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("Order Ready")
                 .setContentText("Order at Table " + order.getTable() + " is ready to be served!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setDefaults(NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         assert notificationManager != null;
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetch_server() {
-        new PreparingOrdersTask().execute("http://sushi.mimosa-soft.com/order/status/" + 1);
         new ReadyOrdersTask(this).execute("http://sushi.mimosa-soft.com/order/status/" + 2);
+        new ServedOrdersTask().execute("http://sushi.mimosa-soft.com/order/status/" + 3);
     }
 
     private Runnable runnableCode = new Runnable() {
@@ -97,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    static private class PreparingOrdersTask extends WebServiceHandler {
+    static private class ServedOrdersTask extends WebServiceHandler {
         @Override
         public void handleResponse(String response) {
-            parseServerResponse(response, preparingOrdersAdapter);
+            parseServerResponse(response, servedOrdersAdapter);
         }
     }
 
@@ -148,11 +149,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        preparingOrdersAdapter = new OrderAdapter(new ArrayList<>(), getApplicationContext());
-
-        ListView preparingOrdersListView = findViewById(R.id.order_list_preparing);
-        preparingOrdersListView.setAdapter(preparingOrdersAdapter);
-
         readyOrdersAdapter = new OrderAdapter(new ArrayList<>(), getApplicationContext());
 
         ListView readyOrdersListView = findViewById(R.id.order_list_ready);
@@ -160,6 +156,14 @@ public class MainActivity extends AppCompatActivity {
         readyOrdersListView.setClickable(true);
         readyOrdersListView.setOnItemClickListener((arg0, arg1, position, arg3) ->
                 startDetailsActivity((Order) readyOrdersListView.getItemAtPosition(position)));
+
+        servedOrdersAdapter = new OrderAdapter(new ArrayList<>(), getApplicationContext());
+
+        ListView servedOrdersListView = findViewById(R.id.order_list_done);
+        servedOrdersListView.setAdapter(servedOrdersAdapter);
+        servedOrdersListView.setClickable(true);
+        servedOrdersListView.setOnItemClickListener((arg0, arg1, position, arg3) ->
+                startDetailsActivity((Order) servedOrdersListView.getItemAtPosition(position)));
 
         if (savedInstanceState != null) {
             is_handler_running = savedInstanceState.getBoolean("IS_HANDLER_RUNNING");
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList("ID_RETENTION", readyOrdersAdapter.getOrdersID());
+        savedInstanceState.putStringArrayList("ID_RETENTION", servedOrdersAdapter.getOrdersID());
         savedInstanceState.putBoolean("IS_HANDLER_RUNNING", is_handler_running);
     }
 

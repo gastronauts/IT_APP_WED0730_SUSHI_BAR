@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" >
+              android:orientation="vertical">
 
     <TextView
             android:id="@+id/txtTitle"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"/>
+            android:textSize="20sp"
+    />
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:text="@string/ordered_items"
-            android:textSize="15sp"/>
+            android:text="@string/ordered_items"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -27,24 +25,23 @@
 
         <Button
                 android:id="@+id/closeButton"
-                style="@style/TextAppearance.AppCompat.Title"
                 android:text="@string/order_served"
                 android:padding="5dp"
                 android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-                android:background="@color/tab_background_selected"/>
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+        />
 
         <TextView
                 android:id="@+id/txtPrice"
-                style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:gravity="left"
-                android:layout_above="@id/closeButton" tools:ignore="RtlHardcoded"/>
+                android:layout_above="@id/closeButton"
+        />
 
         <ListView
                 android:id="@+id/listMeals"
@@ -52,7 +49,6 @@
                 android:layout_height="fill_parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="#EEE"
                 android:layout_above="@id/txtPrice"/>
 
     </RelativeLayout>

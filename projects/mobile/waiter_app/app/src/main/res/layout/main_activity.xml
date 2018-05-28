@@ -14,56 +14,43 @@
             android:layout_margin="5dp"
             android:baselineAligned="false">
 
-
-        <!--<TextView-->
-                <!--android:id="@+id/txtReady"-->
-                <!--style="@style/TextAppearance.AppCompat.Title"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:layout_weight="0.05"-->
-                <!--android:text="@string/preparing"/>-->
-
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_weight="0.5"
                 android:layout_marginEnd="5dp">
             <TextView
-                    android:text="Preparing"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            <ListView
-                    android:id="@+id/order_list_preparing"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#EEE"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="0.5">
-            <TextView
-                    android:text="Ready"
+                    android:text="@string/ready"
+                    android:layout_margin="10dp"
+                    android:textSize="24sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             <ListView
                     android:id="@+id/order_list_ready"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#FFF">
-            </ListView>
+                    android:layout_height="match_parent"/>
+
         </LinearLayout>
 
-        <!--<TextView-->
-                <!--android:id="@+id/txtServed"-->
-                <!--style="@style/TextAppearance.AppCompat.Title"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:layout_weight="0.05"-->
-                <!--android:text="@string/ready"/>-->
+        <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+            <TextView
+                    android:text="@string/served"
+                    android:layout_margin="10dp"
+                    android:textSize="24sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <ListView
+                    android:id="@+id/order_list_done"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </LinearLayout>
 
     </LinearLayout>
 
