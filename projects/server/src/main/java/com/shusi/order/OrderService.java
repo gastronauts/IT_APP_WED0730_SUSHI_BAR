@@ -1,6 +1,7 @@
 package com.shusi.order;
 
 import com.shusi.order.model.Order;
+import com.shusi.order.model.PairOrderIdStatus;
 import com.shusi.order.model.Status;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +22,6 @@ public interface OrderService {
     Order modifyOrder(Order order) throws IllegalArgumentException, InstantiationException;
 
     Order changeOrderStatus(String orderId, Status status)throws IllegalArgumentException;
+
+    Collection<PairOrderIdStatus> currentOrderOnTable(Integer tableId) throws IllegalArgumentException;
 }

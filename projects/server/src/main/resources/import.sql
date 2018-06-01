@@ -5,11 +5,11 @@ SELECT setval('ordered_meal_id_seq', 1, false);
 
 INSERT INTO place (id) VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
 
-INSERT INTO ingredient (name,quantity) VALUES ('łosoś',2),('mozzarella',2),('papryka',2),('oshinko',2),('sałata',2),('sałata',2),('awokado',2),('serek philadelphia',2),('dressing',2),('tobico',2),('por',2),('parmezan',2),('pikantny dressing',2),('salmon',2),('Philadelphia cheese',2);
+INSERT INTO ingredient (name,quantity) VALUES ('salmon',2),('mozzarella',2),('pepper',2),('oshinko',2),('lettuce',2),('avocado',2),('philadelphia cheese',2),('dressing',2),('tobico',2),('pore',2),('parmesan',2),('naughty dressing',2);
 
 INSERT INTO meal (category, details, image, name, possible_to_do, price, proper_time) VALUES ('Sushi recommends',null,'http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/d905d69f-be24-11e7-93f9-525400841de1/2/large/foto_n6.jpg','Sake Tempura',TRUE,29,15),('Sushi recommends',null,'http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/1d7dc623-be25-11e7-93f9-525400841de1/2/large/california_lion_roll.jpg','California Lion Roll',TRUE,39,20),('Lunch',null,'http://cdn.upmenu.com/static/product-images/8ca52eae-4d4a-11e4-ac27-00163edcb8a0/ddb2fc37-8a44-11e4-ac27-00163edcb8a0/3/large/fusion-salmon.jpg','Fusion Salmon',TRUE,21,25);
 
-INSERT INTO meal_ingredients (meal_id, ingredients_id) VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,1),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(3,14),(3,10),(3,15);
+INSERT INTO meal_ingredients (meal_id, ingredients_id) VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(2,1),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(3,1),(3,9),(3,8);
 
 INSERT INTO menu (current, name) VALUES (TRUE,'Spring'),(FALSE,'Summer'),(FALSE,'Autumn'),(FALSE,'Winter');
 

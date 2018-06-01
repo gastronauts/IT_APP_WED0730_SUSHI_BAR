@@ -4,14 +4,17 @@ import com.shusi.meal.repository.MealRepository;
 import com.shusi.order.OrderService;
 import com.shusi.order.model.Order;
 import com.shusi.order.model.OrderedMeal;
+import com.shusi.order.model.PairOrderIdStatus;
 import com.shusi.order.model.Status;
 import com.shusi.order.repository.OrderRepository;
 import com.shusi.order.repository.OrderedMealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -92,7 +95,7 @@ public class OrderImpl implements OrderService {
             try {
                 Order order = currentOrder.get();
                 order.setStatus(status);
-                if(status.equals(Status.SERVED))
+                if(status.equals(Status.DONE))
                     order.setDateEnd(LocalDateTime.now());
                 return orderRepository.save(order);
             }
@@ -101,5 +104,16 @@ public class OrderImpl implements OrderService {
             }
         } else
             throw new IllegalArgumentException("Order does not exist");
+    }
+
+    @Override
+    public Collection<PairOrderIdStatus> currentOrderOnTable(Integer tableId) throws IllegalArgumentException {
+        Collection<Order> orders = orderRepository.getOrdersByTable(tableId);
+        Collection<PairOrderIdStatus> currentOrders = new ArrayList<>();
+
+        orders.stream().filter(order -> !order.getStatus().equals(Status.DONE)).forEach( order ->
+                currentOrders.add(  new PairOrderIdStatus(order.getId(),order.getStatus()))
+        );
+        return currentOrders;
     }
 }
