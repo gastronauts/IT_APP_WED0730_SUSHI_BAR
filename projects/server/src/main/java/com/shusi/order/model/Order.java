@@ -30,7 +30,7 @@ public class Order implements Serializable {
     @Column(nullable = false)
     private Status status;
 
-    private Integer summaryPrice;
+    private Float summaryPrice;
 
     private LocalDateTime dateStart;
     private LocalDateTime dateEnd;
