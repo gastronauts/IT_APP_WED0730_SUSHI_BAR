@@ -1,5 +1,6 @@
 package com.example.radoslaw.shushiapp_cheef.activity;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -39,8 +40,6 @@ public class Tab1Orders extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_1, container, false);
-
-
         return rootView;
     }
 

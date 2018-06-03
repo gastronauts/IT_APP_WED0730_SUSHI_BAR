@@ -10,7 +10,6 @@ export default function CartReducer(
 
         case "ADD_ITEM_TO_CART":
             let newSum = 0;
-            //let newEstimatedTime = 0;
             let updateItem = false;
             let newState = state.itemsInCart.map( (item) => {
                 if(item.mealId === action.payload.mealId){
@@ -20,7 +19,6 @@ export default function CartReducer(
                 }
                 else{
                     newSum += item.amount * item.price;
-                    //newEstimatedTime = action.payload.estimatedTime > newEstimatedTime ? action.payload.estimatedTime : newEstimatedTime;
                     return item
                 }
             });

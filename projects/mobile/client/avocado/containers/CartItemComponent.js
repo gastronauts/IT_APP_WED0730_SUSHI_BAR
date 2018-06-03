@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Image, Modal } from 'react-native';
-import {Text, Button, Icon} from 'react-native-elements';
+import {Text, Button} from 'react-native-elements';
 import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
@@ -143,6 +143,7 @@ class CartItemComponent extends Component {
                                 itemsAmount={this.state.itemsAmount}
                                 whereOpened="CART"
                                 setCurrentStatePriceAndAmount={this.setCurrentStatePriceAndAmount}
+                                details={this.props.details}
                             />
                         </View>
                     </View>
@@ -284,7 +285,8 @@ CartItemComponent.propTypes = {
     price: PropTypes.number,
     image: PropTypes.string,
     amount: PropTypes.number,
-    estimatedTime: PropTypes.number
+    estimatedTime: PropTypes.number,
+    details: PropTypes.string
 };
 
 

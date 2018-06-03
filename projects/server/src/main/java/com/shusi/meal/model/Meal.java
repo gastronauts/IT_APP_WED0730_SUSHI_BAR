@@ -38,7 +38,7 @@ public class Meal implements Serializable {
     private String image;
 
     @Column(nullable = false)
-    private Time properTime;
+    private Integer properTime;
 
     @ManyToMany
     @Column(nullable = false)

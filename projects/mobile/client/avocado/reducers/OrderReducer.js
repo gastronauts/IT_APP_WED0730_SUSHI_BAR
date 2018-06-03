@@ -1,6 +1,7 @@
 export default function OrderReducer(
     state = {
-        orders: []
+        orders: [],
+        table: null
     },
     action
 ) {
@@ -21,6 +22,38 @@ export default function OrderReducer(
 
             state = {...state,
                 orders: [...state.orders, newOrder]
+            };
+
+            break;
+
+        case 'POST_ORDER_FULFILLED':
+            break;
+
+        case 'SET_TABLE_NUMBER':
+            state = {...state,
+                table: action.payload.tableNumber
+            };
+
+            break;
+
+        case 'GET_STATUSES_OF_ORDER_FULFILLED':
+            let newOrders = state.orders.map( (item) => {
+                let newStatus = action.payload.data.find((element) => {
+                    return element.id === item.orderId;
+                });
+                return {...item, status: newStatus ? newStatus.status : null }
+            });
+
+            let finalNewOrders = [];
+
+            newOrders.forEach((item) => {
+                if(item.status !== null){
+                    finalNewOrders.push(item);
+                }
+            });
+
+            state = {...state,
+                orders : finalNewOrders
             };
 
             break;
