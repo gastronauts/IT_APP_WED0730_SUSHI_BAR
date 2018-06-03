@@ -25,3 +25,8 @@ If you want to run the app on your device click "share" on Expo XDE and open Exp
 If you prefer to run the app on android emulator run your virtual device and when it is ready click "Device" -> "Open on Android" on Expo XDE. Then wait and that's all.
 
 ### Usage and possibilities
+On application start you will be asked to give the table number. In current version, there are numbers from 1 to 8 available. Then you will see the current menu. On this screen you can check the details of meal, set the amount and click "+" to add it to the cart. App will not let you add 0 amount of a meal to item. Current price of your items in cart is visible under the cart icon.
+To check you current cart state click the cart icon. On cart screen you can chcek sum and estimated time of your possible order. You can change the amount of selected meals or remove it from cart by clicking 'X'. After clicking 'Order' button, meals from your cart will be transfered to the Chef. The app let you to make multiple orders.
+On order screen you can control the status of your orders and check it's details.
+The last available screen is 'Tinder Roll Screen' where you can pick your meal in swipe style. If you want to add current meal to the cart, swipe the screen from left to right, if not swipe from right to left.
+Application is preserved from accidental turning off by clicking the back arrow to many times.
