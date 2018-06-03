@@ -1,7 +1,7 @@
 # Server
 
 ### Main goal
-  * Server application main goal id
+Server application main goal is to communicate and control all four frontend applications.
 
 ## Getting started
 
