@@ -25,7 +25,7 @@ export default function CartReducer(
 
 
             state = {...state,
-                sum: updateItem ? newSum : newSum + action.payload.amount * action.payload.price,
+                sum: updateItem ? newSum.toFixed(2) : (newSum + action.payload.amount * action.payload.price).toFixed(2),
                 itemsInCart: updateItem ? newState : [...state.itemsInCart, action.payload],
                 estimatedTime: action.payload.estimatedTime > state.estimatedTime ? action.payload.estimatedTime : state.estimatedTime
             };
@@ -45,7 +45,7 @@ export default function CartReducer(
             });
 
             state = {...state,
-                sum: newSum,
+                sum: newSum.toFixed(2),
                 itemsInCart: newState,
                 estimatedTime: newEstimatedTime
             };
@@ -65,7 +65,7 @@ export default function CartReducer(
             });
 
             state = {...state,
-                sum: newSum,
+                sum: newSum.toFixed(2),
                 itemsInCart: newState
             };
             break;

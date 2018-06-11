@@ -16,7 +16,7 @@ export default function MenuReducer(
                     image: item.image,
                     estimatedTime: item.properTime,
                     ingredients: item.ingredients.map( (ing) => { return ing.name} ),
-                    price: item.price,
+                    price: parseFloat(item.price).toFixed(2),
                     possibleToDo: item.possibleToDo
                 }
             });
