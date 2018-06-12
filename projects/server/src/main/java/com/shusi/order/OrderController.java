@@ -1,9 +1,9 @@
 package com.shusi.order;
 
 import com.shusi.order.model.Order;
+import com.shusi.order.model.PairOrderIdStatus;
 import com.shusi.order.model.Status;
 import com.shusi.utilities.MergeTool;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,9 @@ public class OrderController {
     @Autowired
     public OrderService orderService;
 
+    @Autowired
+    public OrderedMealService orderedMealService;
+
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public ResponseEntity<Order> getOrder(@PathVariable String id){
         return orderService.getOrderById(id).map(u -> new ResponseEntity<>(u, HttpStatus.OK)).
@@ -28,6 +31,11 @@ public class OrderController {
     @RequestMapping(value = "table/{id}", method = RequestMethod.GET)
     public ResponseEntity<Collection<Order>> getOrderByTable(@PathVariable Integer id){
         return ResponseEntity.ok(orderService.getOrderByTale(id));
+    }
+
+    @RequestMapping(value = "table/current/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<PairOrderIdStatus>> getCurrentOrderOnTable(@PathVariable Integer id){
+        return ResponseEntity.ok(orderService.currentOrderOnTable(id));
     }
 
     @RequestMapping(value = "status/{status}",method = RequestMethod.GET)
@@ -51,8 +59,9 @@ public class OrderController {
         Optional<Order> originalMeal = orderService.getOrderById(order.getId());
         if(!originalMeal.isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        Order finalOrder = MergeTool.mergeObjects(order,originalMeal.get());
         try {
+            order.getMeals().stream().forEach(o -> o = orderedMealService.addOrders(o));
+            Order finalOrder = MergeTool.mergeObjects(order,originalMeal.get());
             return new ResponseEntity<>(orderService.modifyOrder(finalOrder),HttpStatus.OK);
         }
         catch (IllegalArgumentException e) {
@@ -76,6 +85,11 @@ public class OrderController {
     @RequestMapping(value = "served/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Order> servedOrder(@PathVariable String id){
         return changeOrder(id,Status.SERVED);
+    }
+
+    @RequestMapping(value = "done/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Order> doneOrder(@PathVariable String id){
+        return changeOrder(id,Status.DONE);
     }
 
     private ResponseEntity<Order> changeOrder(String orderId, Status status){
