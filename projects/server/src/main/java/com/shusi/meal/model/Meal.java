@@ -38,14 +38,14 @@ public class Meal implements Serializable {
     private String image;
 
     @Column(nullable = false)
-    private Integer properTime;
+    private Time properTime;
 
     @ManyToMany
     @Column(nullable = false)
     private Collection<Ingredient> ingredients;
 
     @Column(nullable = false)
-    private Float price;
+    private Integer price;
 
     @Column(nullable = false)
     private boolean possibleToDo;

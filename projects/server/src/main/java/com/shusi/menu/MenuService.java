@@ -3,6 +3,7 @@ package com.shusi.menu;
 import com.shusi.menu.model.Menu;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -18,6 +19,4 @@ public interface MenuService {
     Menu addMenu(Menu menu) throws IllegalArgumentException;
 
     Menu modifyMenu(Menu menu) throws IllegalArgumentException;
-
-    Menu deleteMealFromMenu(Menu menu, Collection<Integer> meals) throws IllegalArgumentException;
 }

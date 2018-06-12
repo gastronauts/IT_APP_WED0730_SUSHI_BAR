@@ -52,17 +52,4 @@ public class MealController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Meal> deleteMealFromMenu(@PathVariable Integer id, @RequestBody Collection<Integer> ingredients) {
-        Optional<Meal> meal = mealService.getMealById(id);
-        if(!meal.isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        try {
-            return new ResponseEntity<>(mealService.deleteIngredientsFormMeal(meal.get(),ingredients),HttpStatus.OK);
-        }
-        catch (IllegalArgumentException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
 }
