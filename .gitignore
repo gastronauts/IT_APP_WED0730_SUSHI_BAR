@@ -34,7 +34,6 @@ cmake-build-release/
 out/
 projects/server/.idea/
 projects/server/store/
-projects/server/src/main/java/META-INF/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

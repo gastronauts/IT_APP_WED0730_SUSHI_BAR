@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -56,28 +55,6 @@ public class MealImpl implements MealService{
             }
         } else
             throw new IllegalArgumentException("Meal does not exist");
-    }
-
-    @Override
-    public Meal deleteIngredientsFormMeal(Meal meal, Collection<Integer> ingredients) throws IllegalArgumentException {
-        if (mealRepository.exists(meal.getId())){
-            try {
-                Collection<Ingredient> ingredientCollection = meal.getIngredients();
-                Collection<Ingredient> newIngredientCollection = new ArrayList<>();
-                ingredientCollection.stream().forEach(ingredient ->
-                {
-                    if (!ingredients.stream().anyMatch(id -> id.equals(ingredient.getId())))
-                        newIngredientCollection.add(ingredient);
-                });
-                meal.setIngredients(newIngredientCollection);
-                meal = checkIfPossibleToDo(meal);
-                return mealRepository.save(meal);
-            }
-            catch (DataAccessException e) {
-                throw new IllegalArgumentException(e);
-            }
-        }else
-            throw new IllegalArgumentException("Menu does not exist");
     }
 
     private Meal checkIfPossibleToDo(Meal meal){

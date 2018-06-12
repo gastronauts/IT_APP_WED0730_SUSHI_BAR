@@ -3,13 +3,10 @@ package com.shusi.menu;
 import com.shusi.menu.model.Menu;
 import com.shusi.utilities.MergeTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -61,19 +58,6 @@ public class MenuController {
         }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Menu> deleteMealFromMenu(@PathVariable Integer id, @RequestBody Collection<Integer> meals) {
-        Optional<Menu> menu = menuService.getMenuById(id);
-        if(!menu.isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        try {
-            return new ResponseEntity<>(menuService.deleteMealFromMenu(menu.get(),meals),HttpStatus.OK);
-        }
-        catch (IllegalArgumentException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
