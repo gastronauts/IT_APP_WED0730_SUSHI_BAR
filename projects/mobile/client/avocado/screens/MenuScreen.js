@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, Image, StyleSheet, ScrollView, Modal} from 'react-native';
 import {Icon} from "react-native-elements";
 import icon from '../assets/roundLogoWithoutBackground.png';
 import constants from '../constants/constants';
 import translate from "translatr";
 import dictionary from '../translations/translations';
-import MenuItemComponent from '../containers/MenuItemComponent'
-import {getCurrentMenu} from '../actions/index'
+import MenuItemComponent from '../containers/MenuItemComponent';
+import UnavailableMenuItemCoomponent from '../containers/UnavailableMenuItemComponent';
+import {getCurrentMenu} from '../actions/index';
+import ChooseTableComponent from '../containers/ChooseTableComponent';
 
 const cacheImage = images =>
     images.map(image => {
@@ -17,20 +19,29 @@ const cacheImage = images =>
         return Expo.Asset.fromModule(image).downloadAsync();
     });
 
+
 class MenuScreen extends Component {
     constructor(props){
         super(props);
         this.state = {
-            items: []
+            items: [],
+            modalVisible: !(this.props.table && typeof(this.props.table))
         }
     }
+
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
+
     componentWillMount() {
         this._loadAssetsAsync();
 
         let me = this;
         this.props.getCurrentMenu().then(() => {
             let items = this.props.menu.map( (item,index) => {
-                return <MenuItemComponent
+                return item.possibleToDo ? <MenuItemComponent
                     navi={this.props.navigation}
                     mealId={item.mealId}
                     mealName={item.mealName}
@@ -39,7 +50,19 @@ class MenuScreen extends Component {
                     estimatedTime={item.estimatedTime}
                     image={item.image}
                     key={index}
+                    details={item.details}
                 />
+                    : <UnavailableMenuItemCoomponent
+                        navi={this.props.navigation}
+                        mealId={item.mealId}
+                        mealName={item.mealName}
+                        ingredients={item.ingredients}
+                        price={item.price}
+                        estimatedTime={item.estimatedTime}
+                        image={item.image}
+                        key={index}
+                        details={item.details}
+                    />
             });
             me.setState({
                 items: items
@@ -133,6 +156,22 @@ class MenuScreen extends Component {
         return (
             <ScrollView>
                 {this.state.items}
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+
+                    }}
+                >
+                    <View style={style.modalStyle}>
+                        <View style={style.modalContentStyle}>
+                           <ChooseTableComponent
+                               closeModal={this.closeModal}
+                           />
+                        </View>
+                    </View>
+                </Modal>
             </ScrollView>
         )
     }
@@ -166,6 +205,27 @@ const style = StyleSheet.create({
     cartAmountStyle: {
         color: '#fff',
         fontSize: 10
+    },
+    modalStyle: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.5)"
+    },
+    modalContentStyle: {
+        flex: 1,
+        marginTop: 25,
+        marginBottom: 25,
+        marginLeft: 25,
+        marginRight: 25,
+        backgroundColor: "#fff",
+        alignItems: "center"
+    },
+    modalTitle: {
+        fontSize: 20,
+        marginTop: 25,
+        marginBottom: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        textAlign: "center"
     }
 });
 
@@ -173,7 +233,8 @@ const mapStateToProps = (state) => ({
     language: state.i18nReducer.currentLanguage,
     sum: state.CartReducer.sum,
     menu: state.MenuReducer.menu,
-    itemsDownloaded: state.MenuReducer.itemsDownloaded
+    itemsDownloaded: state.MenuReducer.itemsDownloaded,
+    table: state.OrderReducer.table
 });
 
 const mapDispatchToProps = (dispatch) => {

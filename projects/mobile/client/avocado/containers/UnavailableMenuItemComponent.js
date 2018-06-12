@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Image, Modal } from 'react-native';
-import {Text, Button} from 'react-native-elements';
-import { removeItemFromCart, updateAmountOfItemInCart } from '../actions/index';
+import {Text, Icon} from 'react-native-elements';
+import {addItemToCart} from '../actions/index';
 import PropTypes from 'prop-types'
 import constants from '../constants/constants'
 import translate from "translatr";
+import dictionary from '../translations/translations';
 import DetailsComponent from './DetailsComponent'
 
 
-class CartItemComponent extends Component {
+
+class UnavailableMenuItemComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            itemsAmount: this.props.amount,
-            price: this.props.price * this.props.amount,
+            itemsAmount: 1,
+            price: this.props.price,
             modalVisible: false
         };
     };
@@ -26,15 +28,10 @@ class CartItemComponent extends Component {
         })
     };
 
-    setCurrentStatePriceAndAmount = (price,amount) => {
-        this.setState({
-            itemsAmount: amount,
-            price: price,
-        })
-    };
 
     render(){
         let ingredients = this.props.ingredients.join(', ');
+
 
         return (
             <View style = {style.cardStyle}>
@@ -45,6 +42,7 @@ class CartItemComponent extends Component {
                     />
                 </View>
                 <View style = {style.descriptionViewStyle}>
+
                     <Text style={style.title}>{this.props.mealName}</Text>
                     <View style = {style.ingredientsStyle}>
                         <Text style={{fontSize:12}}>{ingredients}</Text>
@@ -61,67 +59,16 @@ class CartItemComponent extends Component {
                     </Text>
                 </View>
                 <View style={style.priceColumnStyle}>
+                    <Icon
+                        name="emoticon-sad"
+                        type="material-community"
+                        size={28}
+                        color="#ddd"
+                    />
+                    <Text style={style.unavailableStyle}>Unavailable</Text>
                     <Text>{this.state.price}zł</Text>
                 </View>
 
-                <View style={style.amountColumnStyle}>
-                    <View style={style.counterRowStyle}>
-                        <Text
-                            style={style.amountMinusStyle}
-                            onPress = { () => {
-                                let decAmount = this.state.itemsAmount > 1 ? this.state.itemsAmount -1 : 0;
-                                let newPrice = decAmount * this.props.price;
-                                if(decAmount !== 0){
-                                    this.setState({
-                                        itemsAmount: decAmount,
-                                        price: newPrice
-                                    });
-                                    this.props.updateAmountOfItemInCart(this.props.mealId, decAmount);
-                                }
-                                else {
-                                    this.props.removeItemFromCart(this.props.mealId);
-                                }
-                            }}
-                        >
-                            -
-                        </Text>
-                        <View style={style.amountCounterStyle}>
-
-                            <Text style={style.amountCounterText}>
-                                {this.state.itemsAmount}
-                            </Text>
-
-                        </View>
-                        <Text
-                            style={style.amountPlusStyle}
-                            onPress = { () => {
-                                let incAmount = this.state.itemsAmount + 1;
-                                let newPrice = incAmount > 1 ? incAmount * this.props.price : this.props.price;
-                                this.setState({
-                                    itemsAmount: incAmount,
-                                    price: newPrice
-                                });
-                                this.props.updateAmountOfItemInCart(this.props.mealId, incAmount);
-                            }}
-                        >
-                            +
-                        </Text>
-                    </View>
-                    <Button
-                        title='X'
-                        color={constants.colors.white}
-                        buttonStyle={{
-                            borderRadius: 100,
-                            width: 30,
-                            height:30,
-                            backgroundColor: constants.colors.red,
-                        }}
-                        onPress = { () => {
-                            this.props.removeItemFromCart(this.props.mealId);
-                        }}
-                    />
-
-                </View>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -141,8 +88,7 @@ class CartItemComponent extends Component {
                                 closeModal={this.closeModal}
                                 estimatedTime={this.props.estimatedTime}
                                 itemsAmount={this.state.itemsAmount}
-                                whereOpened="CART"
-                                setCurrentStatePriceAndAmount={this.setCurrentStatePriceAndAmount}
+                                whereOpened="ORDER"
                                 details={this.props.details}
                             />
                         </View>
@@ -159,8 +105,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        removeItemFromCart: removeItemFromCart,
-        updateAmountOfItemInCart: updateAmountOfItemInCart
+        addItemToCart: addItemToCart
     }, dispatch)
 };
 
@@ -190,7 +135,8 @@ const style = StyleSheet.create({
     },
     descriptionViewStyle:{
         flex: 3,
-        flexDirection: "column"
+        flexDirection: "column",
+        paddingRight: 8
     },
     imageStyle: {
         width:70,
@@ -202,7 +148,7 @@ const style = StyleSheet.create({
         paddingBottom: 5
     },
     priceColumnStyle:{
-        flex: 0.7,
+        flex: 1,
         justifyContent: "flex-end"
     },
     amountColumnStyle:{
@@ -275,19 +221,23 @@ const style = StyleSheet.create({
         marginRight: 20,
         textAlign: "center"
     },
+    unavailableStyle: {
+        fontSize: 10,
+        color: "red",
+        paddingTop: 5
+    }
 
 });
 
-CartItemComponent.propTypes = {
+UnavailableMenuItemComponent.propTypes = {
     mealId: PropTypes.number,
     mealName: PropTypes.string,
     ingredients: PropTypes.array,
     price: PropTypes.number,
     image: PropTypes.string,
-    amount: PropTypes.number,
     estimatedTime: PropTypes.number,
     details: PropTypes.string
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartItemComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(UnavailableMenuItemComponent);
