@@ -1,6 +1,6 @@
-# Server
+# Avocado Server
 
-### Main goal
+## Main goal
 Server application main goal is to communicate and control all four frontend applications.
 
 ## Getting started

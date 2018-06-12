@@ -1,6 +1,6 @@
-# CheefApp
+# Avocado CheefApp
 
-### Main goal
+## Main goal
 CheefApp application is a single part of a complex system for any restaurant. CheefApp itself is created for Chefs which using this app can manage orders and signalize ingredients shortages.
 
 ## Getting started
