@@ -4,4 +4,9 @@
     <string name="tab_text_2">Ingredients</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Testing section move along</string>
+    <string name="button">Change</string>
+    <string name="order_from_table">Order from table: </string>
+    <string name="order_status">Order status: </string>
+    <string name="order_time">Ordered: </string>
+    <string name="order_details">Order consist: </string>
 </resources>

@@ -16,6 +16,7 @@ import com.example.radoslaw.shushiapp_cheef.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String BASE_URL = "http://sushi.mimosa-soft.com/";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
