@@ -15,7 +15,7 @@ class OrderMealItemComponent extends Component {
         super(props);
         this.state = {
             itemsAmount: this.props.amount,
-            price: this.props.price * this.props.amount,
+            price: (this.props.price * this.props.amount).toFixed(2),
             modalVisible: false
         };
     }
@@ -154,10 +154,10 @@ const style = StyleSheet.create({
     priceColumnStyle:{
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 25
+        paddingTop: 25,
     },
     amountColumnStyle:{
-        flex: 0.7,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: -10,

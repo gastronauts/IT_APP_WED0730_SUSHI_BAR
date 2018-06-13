@@ -217,7 +217,7 @@ const style = StyleSheet.create({
         paddingBottom: 5
     },
     priceColumnStyle:{
-        flex: 0.7,
+        flex: 1,
         justifyContent: "flex-end"
     },
     amountColumnStyle:{

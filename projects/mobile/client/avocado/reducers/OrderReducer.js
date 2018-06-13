@@ -14,7 +14,7 @@ export default function OrderReducer(
 
             let newOrder =  {
                 orderId: action.payload.orderId,
-                sum: action.payload.sum,
+                sum: parseFloat(action.payload.sum).toFixed(2),
                 estimatedTime: action.payload.estimatedTime,
                 status: action.payload.status,
                 meals: newMeals
